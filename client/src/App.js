@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="container">
       {/* <Hea?der /> */}
-      <AddJoinForms />
+      {/* <AddJoinForms /> */}
       {/* <Footer /> */}
     </div>
   );
