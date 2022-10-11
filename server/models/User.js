@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-//Will use this later once we add password authentication
-//const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   email: {
@@ -35,6 +34,21 @@ const userSchema = new Schema({
     },
   ],
 });
+
+//hashing password
+userSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+
+  next();
+});
+
+//validating password
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
 
 const User = model("User", userSchema);
 
