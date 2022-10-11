@@ -12,10 +12,22 @@ type User {
 }
 
 type Trip {
-
+    _id: ID
+    name: String
+    password: String
+    users: [User]!
+    totalPaid: [{User}, {Number}]!
+    expensesPaid: [{User}, {String}, {Number}]!
 }
 
+type Query {
+    users: [User]
+    user(email: String!): User
+}
 
+type Mutation {
+    
+}
 
 
 
