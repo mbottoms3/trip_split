@@ -25,6 +25,8 @@ type Query {
     users: [User]
     user(email: String!): User
     trip(tripId: ID!): Trip
+    #GET all trips
+    #GET all expenses
 
 }
 
@@ -32,6 +34,10 @@ type Mutation {
     addUser(email: String!, password: String!, firstName: String!, lastName: String!): Auth
     login(email: String!, password: String!): Auth
     addTrip(name: String!, password: String!): Trip
+    #ADD expense
+    #UPDATE expense by ID
+    #UPDATE trip by id to add user
+    #DELETE expense by id
 }
 
 
