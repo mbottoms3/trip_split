@@ -11,7 +11,7 @@ function AddJoinForms() {
   const [feedback1, setFeedback1] = useState("");
   const [feedback2, setFeedback2] = useState("");
 
-  const [addTrip, { error }] = useMutation(ADD_TRIP);
+  // const [addTrip, { error }] = useMutation(ADD_TRIP);
 
   //adds a trip to the database with name and trip password
   //we need to also add this user to the trip users array - not sure how
@@ -21,13 +21,13 @@ function AddJoinForms() {
       ? console.log("Passwords match")
       : setFeedback1("Passwords do not match");
     try {
-      const { data } = await addTrip({
-        variables: { newName, newPassword },
-      });
+      // const { data } = await addTrip({
+      //   variables: { newName, newPassword },
+      // });
       setNewName("");
       setNewPassword("");
       setConfirmPassword("");
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error(error);
     }

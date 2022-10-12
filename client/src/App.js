@@ -2,13 +2,15 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 
-import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Navigation from "./components/Navigation";
-import ExpenseForm from "./components/ExpenseForm";
-import AddJoinForms from "./components/AddJoinForms";
 import Navbar from "./components/Navbar";
-import Feed from "./components/Feed";
+import MyTrips from "./pages/MyTrips";
+import OneTrip from "./pages/OneTrip";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import FinalTripSplit from "./pages/FinalTripSplit";
+import AddJoinTrip from "./pages/AddJoinTrip";
+
 // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -17,7 +19,6 @@ function App() {
       <div className="container">
         {/* <Header /> */}
         <Navbar />
-        <ExpenseForm />
         <Routes>
           <Route path="/mytrips" element={<MyTrips />} />
           <Route path="/onetrip" element={<OneTrip />} />
