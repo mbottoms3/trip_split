@@ -1,3 +1,4 @@
+import Feed from "./Feed";
 import { useState } from "react";
 
 function ExpenseForm() {
@@ -74,6 +75,7 @@ function ExpenseForm() {
           Submit
         </button>
       </div>
+      <Feed cost={cost} description={description} purchaser={purchaser} />
     </div>
   );
 }
