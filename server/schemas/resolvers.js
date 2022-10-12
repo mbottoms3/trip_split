@@ -16,6 +16,11 @@ const resolvers = {
     trip: async (parent, { tripId }) => {
       return Trip.findOne({ _id: tripId });
     },
+    // find all trips
+    trips: async (parent, { email }) => {
+      const params = email ? { email } : {};
+      return Trip.find(params);
+    },
   },
 
   Mutation: {},
