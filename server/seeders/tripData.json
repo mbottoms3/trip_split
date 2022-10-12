@@ -1,4 +1,14 @@
 {
   "name": "Florida",
-  "password": "password"
+  "password": "password",
+  "totalPaid": [
+    { "amountPaid": 50 },
+    { "amountPaid": 100 },
+    { "amountPaid": 75 }
+  ],
+  "expensesPaid": [
+    { "itemDescription": "Rental Car", "amount": 100 },
+    { "itemDescription": "Day One of trip Food", "amount": 75 },
+    { "itemDescription": "Gas for car", "amount": 50 }
+  ]
 }
