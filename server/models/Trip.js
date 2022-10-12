@@ -1,4 +1,6 @@
 const { Schema, model } = require("mongoose");
+const { totalPaidSchema, expensePaidSchema } = require("./Payment");
+
 const bcrypt = require("bcrypt");
 
 //Trip -
@@ -24,35 +26,9 @@ const tripSchema = new Schema({
     },
   ],
   // Array of objects total paid for each user [{user id, amount paid}, {user id, amount paid}]
-  totalPaid: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-      amountPaid: {
-        type: Number,
-      },
-    },
-  ],
+  totalPaid: [totalPaidSchema],
   // Array of objects expenses paid [{user id, item description, amount},...]
-  expensesPaid: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-      itemDescription: {
-        type: String,
-        minLength: 10,
-        maxLength: 100,
-      },
-      amount: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
+  expensesPaid: [expensePaidSchema],
 });
 
 tripSchema.pre("save", async function (next) {
