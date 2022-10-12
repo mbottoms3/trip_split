@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -10,14 +11,26 @@ import Navbar from "./components1/Navbar";
 
 function App() {
   return (
-    <div className="container">
-      {/* <Header /> */}
-      <Navbar />
-      <ExpenseForm />
+    <Router>
+      <div className="container">
+        {/* <Header /> */}
+        <Navbar />
+        <ExpenseForm />
+        <Routes>
+          <Route path="/mytrips" element={<MyTrips />} />
+          <Route path="/onetrip" element={<OneTrip />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/finaltripsplit" element={<FinalTripSplit />} />
+          <Route path="/addjointrip" element={<AddJoinTrip />} />
+        </Routes>
 
-      {/* <Footer /> */}
-    </div>
+        {/* <Footer /> */}
+      </div>
+    </Router>
   );
 }
 
 export default App;
+
+// My trips, one trip, login, sign up, final trip split, add/join page
