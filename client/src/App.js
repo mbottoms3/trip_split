@@ -13,7 +13,6 @@ import Feed from "./components/Feed";
 
 function App() {
   return (
-
     <Router>
       <div className="container">
         {/* <Header /> */}
@@ -32,15 +31,14 @@ function App() {
       </div>
     </Router>
 
-    <div className="container">
-      {/* <Header /> */}
-      <Navbar />
-      <ExpenseForm />
-      <AddJoinForms />
-      <Feed />
-      <Footer />
-    </div>
-
+    // <div className="container">
+    //   {/* <Header /> */}
+    //   <Navbar />
+    //   <ExpenseForm />
+    //   <AddJoinForms />
+    //   <Feed />
+    //   <Footer />
+    // </div>
   );
 }
 
