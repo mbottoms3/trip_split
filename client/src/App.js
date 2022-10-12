@@ -12,6 +12,8 @@ function App() {
     <div className="container">
       {/* <Header /> */}
       <Navbar />
+      <ExpenseForm />
+
       {/* <Footer /> */}
     </div>
   );

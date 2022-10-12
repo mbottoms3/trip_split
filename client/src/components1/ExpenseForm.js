@@ -1,23 +1,34 @@
 import Feed from "./Feed";
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+// import {ADD_EXPENSE} from "utils/mutations"
 
 function ExpenseForm() {
   const [cost, setCost] = useState("");
   const [description, setDescription] = useState("");
   const [purchaser, setPurchaser] = useState("");
 
-  const handleSubmit = (e) => {
+  //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
+  //   const [addExpense, { error }] = useMutation(ADD_EXPENSE);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(description, cost, purchaser);
-    setCost("");
-    setDescription("");
-    setPurchaser("");
+    try {
+      //   const { data } = await addExpense({
+      //     variables: { cost, description, purchaser },
+      //   });
+      setCost("");
+      setDescription("");
+      setPurchaser("");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleInputChange = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
     console.log(name, value);
+
     return name === "cost"
       ? setCost(value)
       : name === "description"
@@ -75,7 +86,7 @@ function ExpenseForm() {
           Submit
         </button>
       </div>
-      <Feed cost={cost} description={description} purchaser={purchaser} />
+      <ul className="list-group"></ul>
     </div>
   );
 }
