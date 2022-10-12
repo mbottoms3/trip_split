@@ -20,13 +20,18 @@ type Trip {
     expensesPaid: [{User}, {String}, {Number}]!
 }
 
+#These need to be finished
 type Query {
     users: [User]
     user(email: String!): User
+    trip(tripId: ID!): Trip
+
 }
 
 type Mutation {
-    
+    addUser(email: String!, password: String!, firstName: String!, lastName: String!): Auth
+    login(email: String!, password: String!): Auth
+    addTrip(name: String!, password: String!): Trip
 }
 
 
