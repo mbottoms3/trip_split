@@ -1,4 +1,6 @@
-const { User, Thought } = require("../models");
+const { User, Trip } = require("../models");
+const { AuthenticationError } = require("apollo-server-express");
+const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
