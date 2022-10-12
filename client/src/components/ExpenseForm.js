@@ -8,18 +8,18 @@ function ExpenseForm() {
   const [purchaser, setPurchaser] = useState("");
 
   //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
-  const [addExpense, { error }] = useMutation(ADD_EXPENSE);
+  // const [addExpense, { error }] = useMutation(ADD_EXPENSE);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await addExpense({
-        variables: { cost, description, purchaser },
-      });
+      // const { data } = await addExpense({
+      //   variables: { cost, description, purchaser },
+      // });
       setCost("");
       setDescription("");
       setPurchaser("");
-      console.log(data);
+      // console.log(data);
     } catch (err) {
       console.error(err);
     }
