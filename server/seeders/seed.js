@@ -19,8 +19,9 @@ db.once("open", async () => {
     await tempTrip.save();
 
     const tempUser = users[Math.floor(Math.random() * users.length)];
-    newUser.trips = tempUser._id;
+    newUser.trips = tempTrip._id;
     await newUser.save();
+    console.log(tempUser);
   }
   console.log("all done!");
   process.exit(0);
