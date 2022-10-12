@@ -1,25 +1,21 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Footer from "./components/Footer";
+
+import Header from "./components1/Header";
+import Footer from "./components1/Footer";
+import Navigation from "./components1/Navigation";
+import ExpenseForm from "./components1/ExpenseForm";
+import AddJoinForms from "./components1/AddJoinForms";
+import Navbar from "./components1/Navbar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <Footer />
+    <div className="container">
+      {/* <Header /> */}
+      <Navbar />
+      <ExpenseForm />
+
+      {/* <Footer /> */}
     </div>
   );
 }
