@@ -8,3 +8,5 @@ function FinalSplit() {
     </div>
   );
 }
+
+export default FinalSplit;
