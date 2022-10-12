@@ -4,10 +4,12 @@ import "./App.css";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Navigation from "./components1/Navigation";
-import ExpenseForm from "./components1/ExpenseForm";
-import AddJoinForms from "./components1/AddJoinForms";
-import Navbar from "./components1/Navbar";
+import Navigation from "./components/Navigation";
+import ExpenseForm from "./components/ExpenseForm";
+import AddJoinForms from "./components/AddJoinForms";
+import Navbar from "./components/Navbar";
+import Feed from "./components/Feed";
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
