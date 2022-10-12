@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import logo from "./logo.svg";
+import "./App.css";
+
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import MyTrips from "./pages/MyTrips";
+import OneTrip from "./pages/OneTrip";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import FinalTripSplit from "./pages/FinalTripSplit";
+import AddJoinTrip from "./pages/AddJoinTrip";
+
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="container">
+        {/* <Header /> */}
+        <Navbar />
+        <Routes>
+          <Route path="/mytrips" element={<MyTrips />} />
+          <Route path="/onetrip" element={<OneTrip />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/finaltripsplit" element={<FinalTripSplit />} />
+          <Route path="/addjointrip" element={<AddJoinTrip />} />
+        </Routes>
+
+        {/* <Footer /> */}
+      </div>
+    </Router>
+
+    // <div className="container">
+    //   {/* <Header /> */}
+    //   <Navbar />
+    //   <ExpenseForm />
+    //   <AddJoinForms />
+    //   <Feed />
+    //   <Footer />
+    // </div>
   );
 }
 
 export default App;
+
+// My trips, one trip, login, sign up, final trip split, add/join page
