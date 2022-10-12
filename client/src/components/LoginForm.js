@@ -18,6 +18,7 @@ function LoginForm() {
   };
   return (
     <div className="w-25">
+      <h3>Login</h3>
       <div className="mb-3">
         <label htmlFor="email" className="form-label">
           Email:
@@ -44,7 +45,7 @@ function LoginForm() {
           onChange={handleInputChange}
         ></input>
       </div>
-      <div>
+      <div className="col-auto d-flex justify-content-end">
         <button
           type="submit"
           className="btn btn-primary mb-2"
