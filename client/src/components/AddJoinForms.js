@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_TRIP } from "../utils/mutations";
 
 function AddJoinForms() {
   const [newName, setNewName] = useState("");
@@ -9,17 +11,29 @@ function AddJoinForms() {
   const [feedback1, setFeedback1] = useState("");
   const [feedback2, setFeedback2] = useState("");
 
-  const handleAddSubmit = (e) => {
+  const [addTrip, { error }] = useMutation(ADD_TRIP);
+
+  //adds a trip to the database with name and trip password
+  //we need to also add this user to the trip users array - not sure how
+  const handleAddSubmit = async (e) => {
     e.preventDefault();
     newPassword === confirmPassword
       ? console.log("Passwords match")
       : setFeedback1("Passwords do not match");
-    console.log(newName, newPassword);
-    setNewName("");
-    setNewPassword("");
-    setConfirmPassword("");
+    try {
+      const { data } = await addTrip({
+        variables: { newName, newPassword },
+      });
+      setNewName("");
+      setNewPassword("");
+      setConfirmPassword("");
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  //adds a new user to a trip (update a trip method)
   const handleJoinSubmit = (e) => {
     e.preventDefault();
     console.log(existingName, existingPassword);
