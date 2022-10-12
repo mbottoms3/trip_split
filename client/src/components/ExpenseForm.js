@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_EXPENSE } from "./mutations";
+import { ADD_EXPENSE } from "../utils/mutations";
 
 function ExpenseForm() {
   const [cost, setCost] = useState("");
