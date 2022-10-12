@@ -1,4 +1,6 @@
-const { User, Thought } = require("../models");
+const { User, Trip } = require("../models");
+const { AuthenticationError } = require("apollo-server-express");
+const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
@@ -11,7 +13,12 @@ const resolvers = {
       return User.findOne({ email }).populate("trips");
     },
     // find Trip
+    trip: async (parent, { tripId }) => {
+      return Trip.findOne({ _id: tripId });
+    },
   },
 
   Mutation: {},
 };
+
+module.exports = resolvers;
