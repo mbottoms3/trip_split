@@ -16,5 +16,3 @@ export default function Footer() {
     </div>
   );
 }
-//need to import to app.js
-//import Footer from "./components/Footer";
