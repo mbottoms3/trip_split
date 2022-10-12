@@ -15,15 +15,24 @@ const typeDefs = gql`
     name: String
     password: String
     users: [User]!
-    #totalPaid: [{User}, {Number}]!
-    #expensesPaid: [{User}, {String}, {Number}]!
+  }
+
+  type totalPaid {
+    user: [User]
+    amountPaid: Int
+  }
+
+  type expensePaid {
+    user: [User]
+    itemDescription: String
+    amount: Int
   }
 
   type Query {
     users: [User]
     user(email: String!): User
     trip(tripId: ID!): Trip
-    #GET all trips
+    trips(email: String!): Trip
     #GET all expenses
   }
 
