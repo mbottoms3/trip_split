@@ -1,11 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav class="navbar navbar-expand-lg  navbar-light bg-light">
-      <a class="navbar-brand" href="#">
-        The places we shall go!
-      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,25 +17,20 @@ function Navbar() {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              Home <span class="sr-only">(current)</span>
-            </a>
-          </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <Link className="nav-link" to={"/mytrips"}>
               My Trips
-            </a>
+            </Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <Link className="nav-link" to={"/addjointrip"}>
               Add/Join Trip
-            </a>
+            </Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <Link className="nav-link" to={"/login"}>
               Login
-            </a>
+            </Link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
