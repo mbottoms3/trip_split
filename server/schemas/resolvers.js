@@ -13,7 +13,12 @@ const resolvers = {
       return User.findOne({ email }).populate("trips");
     },
     // find Trip
+    trip: async (parent, { tripId }) => {
+      return Trip.findOne({ _id: tripId });
+    },
   },
 
   Mutation: {},
 };
+
+module.exports = resolvers;
