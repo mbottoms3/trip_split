@@ -8,7 +8,7 @@ function Feed() {
 
   return (
     <div>
-      <h3>Trip Feed:</h3>
+      <h3 className="my-3">Trip Feed:</h3>
       {/* {props.expenses.map((expense) => {
         <li className="list-group-item">
           {expense.purchaser} purchased {expense.description} for $

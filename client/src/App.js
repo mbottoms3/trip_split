@@ -6,7 +6,8 @@ import {
   ApolloProvider,
   createHttpLink,
 } from "@apollo/client";
-import logo from "./logo.svg";
+import { setContext } from "@apollo/client/link/context";
+
 import "./App.css";
 
 import Footer from "./components/Footer";
@@ -32,7 +33,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const client = newApolloClient({
+const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
@@ -55,10 +56,9 @@ function App() {
 
           {/* <Footer /> */}
         </div>
-      </Router>
-      //{" "}
+      </Router>{" "}
       <div className="container">
-        // {/* <Header /> */}
+        {/* <Header /> */}
         {/* // <Navbar />
         // <ExpenseForm />
         // <AddJoinForms />
