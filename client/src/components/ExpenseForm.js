@@ -2,24 +2,34 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_EXPENSE } from "../utils/mutations";
 
-function ExpenseForm() {
-  const [cost, setCost] = useState("");
+function ExpenseForm({ tripId }) {
+  const [cost, setCost] = useState();
   const [description, setDescription] = useState("");
   const [purchaser, setPurchaser] = useState("");
 
   //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
-  // const [addExpense, { error }] = useMutation(ADD_EXPENSE);
-
+  const [addExpense, { error }] = useMutation(ADD_EXPENSE);
+  if (error) {
+    console.log(JSON.stringify(error));
+  }
   const handleSubmit = async (e) => {
+    const costNum = parseInt(cost);
+    console.log(typeof costNum);
+    console.log(tripId, description, costNum, purchaser);
     e.preventDefault();
     try {
-      // const { data } = await addExpense({
-      //   variables: { cost, description, purchaser },
-      // });
-      setCost("");
+      const { data } = await addExpense({
+        variables: {
+          tripId: tripId,
+          itemDescription: description,
+          amount: costNum,
+          email: purchaser,
+        },
+      });
+      setCost();
       setDescription("");
       setPurchaser("");
-      // console.log(data);
+      console.log(data);
     } catch (err) {
       console.error(err);
     }
@@ -46,7 +56,7 @@ function ExpenseForm() {
         <input
           value={cost}
           className="form-control m-10"
-          type="text"
+          type="number"
           placeholder="150.00"
           name="cost"
           onChange={handleInputChange}

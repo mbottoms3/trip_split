@@ -13,7 +13,7 @@ function Feed({ expenses, title }) {
       {expenses &&
         expenses.map((expense) => (
           <div>
-            <li key={expense.itemDescription} className="list-group-item">
+            <li key={Math.random()} className="list-group-item">
               Someone purchased {expense.itemDescription} for ${expense.amount}
             </li>
           </div>
