@@ -24,10 +24,11 @@ export const ADD_EXPENSE = gql`
 // export const DELETE_EXPENSE = gql``;
 
 //trip mutations
-// export const ADD_TRIP = gql`
-// mutation addTrip($name: String!, $password: String!)
-//     addTrip(name: $name, password: $password),
-//     name
-//     trip {
-//         users
-//     }`;
+export const ADD_TRIP = gql`
+  mutation addTrip($name: String!, $password: String!) {
+    addTrip(name: $name, password: $password) {
+      name
+      password
+    }
+  }
+`;

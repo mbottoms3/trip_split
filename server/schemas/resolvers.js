@@ -17,10 +17,10 @@ const resolvers = {
       return Trip.findOne({ _id: tripId }).populate("users");
     },
     // find all trips
-    // trips: async (parent, { email }) => {
-    //   const params = email ? { email } : {};
-    //   return Trip.find(params);
-    // },
+    trips: async (parent, args) => {
+      // const params = email ? { email } : {};
+      return Trip.find();
+    },
   },
 
   Mutation: {

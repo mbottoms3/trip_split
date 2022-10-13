@@ -33,7 +33,7 @@ const typeDefs = gql`
     users: [User]
     user(email: String!): User
     trip(tripId: ID!): Trip
-    trips(email: String!): Trip
+    trips: [Trip]
     #GET all expenses
   }
 
