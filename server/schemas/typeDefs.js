@@ -15,17 +15,18 @@ const typeDefs = gql`
     name: String
     password: String
     users: [User]!
+    expensesPaid: [expensePaid]
   }
 
   type totalPaid {
     user: [User]
-    amountPaid: Int
+    amountPaid: Float
   }
 
   type expensePaid {
     user: [User]
     itemDescription: String
-    amount: Int
+    amount: Float
   }
 
   type Query {
@@ -40,7 +41,7 @@ const typeDefs = gql`
     #addUser(email: String!, password: String!, firstName: String!, lastName: String!): Auth
     #login(email: String!, password: String!): Auth
     addTrip(name: String!, password: String!): Trip
-    #ADD expense
+    addExpense(tripId: ID!, itemDescription: String!, amount: Float!): Trip
     #UPDATE expense by ID
     #UPDATE trip by id to add user
     #DELETE expense by id

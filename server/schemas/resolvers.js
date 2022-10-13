@@ -1,4 +1,4 @@
-const { User, Trip } = require("../models");
+const { User, Trip, expensePaidSchema } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
@@ -14,16 +14,33 @@ const resolvers = {
     },
     // find Trip
     trip: async (parent, { tripId }) => {
-      return Trip.findOne({ _id: tripId });
+      return Trip.findOne({ _id: tripId }).populate("users");
     },
     // find all trips
-    trips: async (parent, { email }) => {
-      const params = email ? { email } : {};
-      return Trip.find(params);
-    },
+    // trips: async (parent, { email }) => {
+    //   const params = email ? { email } : {};
+    //   return Trip.find(params);
+    // },
   },
 
-  Mutation: {},
+  Mutation: {
+    addTrip: async (parent, { name, password }) => {
+      return Trip.create({ name, password });
+    },
+
+    addExpense: async (parent, { tripId, itemDescription, amount }) => {
+      return Trip.findOneAndUpdate(
+        { _id: tripId },
+        {
+          $addToSet: { expensesPaid: { itemDescription, amount } },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    },
+  },
 };
 
 module.exports = resolvers;
