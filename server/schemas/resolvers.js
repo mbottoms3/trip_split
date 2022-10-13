@@ -1,7 +1,6 @@
 const { User, Trip, expensePaidSchema } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
-const { findOneAndUpdate } = require("../models/User");
 
 const resolvers = {
   Query: {
@@ -29,11 +28,11 @@ const resolvers = {
       return Trip.create({ name, password });
     },
 
-    addExpense: async (parent, { tripId, itemDescription, amount, email }) => {
+    addExpense: async (parent, { tripId, itemDescription, amount }) => {
       return Trip.findOneAndUpdate(
         { _id: tripId },
         {
-          $addToSet: { expensesPaid: { itemDescription, amount, email } },
+          $addToSet: { expensesPaid: { itemDescription, amount } },
         },
         {
           new: true,
@@ -41,37 +40,7 @@ const resolvers = {
         }
       );
     },
-
-    removeExpense: async (parent, { tripId, expensePaidId }) => {
-      return Trip.findOneAndUpdate(
-        { _id: tripId },
-        {
-          $pull: { expensesPaid: { _id: expensePaidId } },
-        },
-        { new: true }
-      );
-    },
-
-    // updateExpense: async (
-    //   parent,
-    //   { expensePaidId, itemDescription, amount }
-    // ) => {
-    //   return expensePaidSchema.findOneAndUpdate(
-    //     { _id: expensePaidId },
-    //     {
-    //       $set: {
-    //         expensesPaid: {
-    //           itemDescription: itemDescription,
-    //           amount: amount,
-    //         },
-    //       },
-    //     },
-    //     { new: true }
-    //   );
-    // },
   },
 };
 
 module.exports = resolvers;
-
-// { trip.expensesPaid }
