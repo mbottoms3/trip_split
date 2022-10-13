@@ -49,10 +49,12 @@ const typeDefs = gql`
       email: String!
     ): Trip
     removeExpense(tripId: ID!, expensePaidId: ID!): Trip
-    #updateExpense(tripId: ID,
-      expensePaidId: ID!,
+    #updateExpense(
+      tripId: ID
+      expensePaidId: ID!
       itemDescription: String
-      amount: Float): Trip
+      amount: Float
+    ): Trip
 
     #UPDATE trip by id to add user
     #UPDATE expense by ID
