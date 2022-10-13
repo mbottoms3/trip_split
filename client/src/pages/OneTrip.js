@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "chart.js/auto";
 
 import ExpenseForm from "../components/ExpenseForm";
@@ -8,16 +9,21 @@ import Feed from "../components/Feed";
 import BarChart from "../components/BarChart";
 
 function OneTrip() {
-  //   const { tripId } = useParams();
-  //   const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
-  //     variables: { tripId: tripId },
-  //   });
+  //grabs the trip id from the state on the link before
+  const location = useLocation();
+  const { tripId } = location.state;
+  console.log(tripId);
 
-  //   const trip = data?.trip || {};
+  //fetch this trip's data from the database
+  const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
+    variables: { tripId: tripId },
+  });
 
-  //   if (loading) {
-  //     return <div>Loading...</div>;
-  //   }
+  const trip = data?.trip || {};
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   function createColorsArray(numbersArray) {
     const colorsArray = [];
     //create number that is average
@@ -25,9 +31,9 @@ function OneTrip() {
   }
 
   function handleClick(e) {
-    setChartData(data);
+    setChartData(graphData);
   }
-  const data = {
+  const graphData = {
     labels: ["User 1", "User 2", "User 3"],
     datasets: [
       {
@@ -38,7 +44,7 @@ function OneTrip() {
       },
     ],
   };
-  const [chartData, setChartData] = useState(data);
+  const [chartData, setChartData] = useState(graphData);
   return (
     <div>
       <h2 className="my-3">Insert title of trip prop here</h2>
