@@ -24,7 +24,8 @@ const typeDefs = gql`
   }
 
   type expensePaid {
-    user: [User]
+    _id: ID
+    email: String
     itemDescription: String
     amount: Float
   }
@@ -41,10 +42,22 @@ const typeDefs = gql`
     #addUser(email: String!, password: String!, firstName: String!, lastName: String!): Auth
     #login(email: String!, password: String!): Auth
     addTrip(name: String!, password: String!): Trip
-    addExpense(tripId: ID!, itemDescription: String!, amount: Float!): Trip
-    #UPDATE expense by ID
+    addExpense(
+      tripId: ID!
+      itemDescription: String!
+      amount: Float!
+      email: String!
+    ): Trip
+    removeExpense(tripId: ID!, expensePaidId: ID!): Trip
+    #updateExpense(
+      tripId: ID
+      expensePaidId: ID!
+      itemDescription: String
+      amount: Float
+    ): Trip
+
     #UPDATE trip by id to add user
-    #DELETE expense by id
+    #UPDATE expense by ID
   }
 `;
 
