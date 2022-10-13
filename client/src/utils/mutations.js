@@ -3,17 +3,24 @@ import { gql } from "@apollo/client";
 //expense functions
 export const ADD_EXPENSE = gql`
   mutation addExpense(
-    $cost: Float!
-    $description: String!
-    $purchaser: String!
+    $tripId: ID!
+    $itemDescription: String!
+    $amount: Float!
+    $email: String!
   ) {
-    addExpense(amount: $cost, itemDescription: $description, user: $purchaser) {
-      cost
-      description
-      purchaser
-      user {
-        _id
-        expenses
+    addExpense(
+      tripId: $tripId
+      itemDescription: $itemDescription
+      amount: $amount
+      email: $email
+    ) {
+      expensesPaid {
+        email
+        amount
+      }
+      users {
+        firstName
+        email
       }
     }
   }
