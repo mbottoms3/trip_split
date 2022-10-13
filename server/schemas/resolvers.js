@@ -54,13 +54,14 @@ const resolvers = {
 
     updateExpense: async (
       parent,
-      { expensePaidId, itemDescription, amount }
+      { tripId, expensePaidId, itemDescription, amount }
     ) => {
-      return expensePaidSchema.findOneAndUpdate(
-        { _id: expensePaidId },
+      return Trip.findOneAndUpdate(
+        { _id: tripId },
         {
           $set: {
             expensesPaid: {
+              _id: expensePaidId,
               itemDescription: itemDescription,
               amount: amount,
             },

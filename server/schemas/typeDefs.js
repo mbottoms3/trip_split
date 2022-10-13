@@ -49,7 +49,7 @@ const typeDefs = gql`
       email: String!
     ): Trip
     removeExpense(tripId: ID!, expensePaidId: ID!): Trip
-    #updateExpense(
+    updateExpense(
       tripId: ID
       expensePaidId: ID!
       itemDescription: String
