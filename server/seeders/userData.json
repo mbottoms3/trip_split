@@ -16,5 +16,30 @@
     "lastName": "Jewels",
     "password": "Rudyjewels30",
     "email": "rudy30@gmail.com"
+  },
+
+  {
+    "firstName": "Micah",
+    "lastName": "Bottoms",
+    "password": "MrBottoms30",
+    "email": "micah100@gmail.com"
+  },
+  {
+    "firstName": "Gabe",
+    "lastName": "Vee",
+    "password": "LardexTheLarge",
+    "email": "gabevee@gmail.com"
+  },
+  {
+    "firstName": "Hannah",
+    "lastName": "Alverson",
+    "password": "Hannahson",
+    "email": "hannahA@gmail.com"
+  },
+  {
+    "firstName": "Karl",
+    "lastName": "Franz",
+    "password": "KingKarl",
+    "email": "KingKarl00@gmail.com"
   }
 ]
