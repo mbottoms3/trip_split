@@ -3,16 +3,16 @@ function MyTrips() {
   //const -- depending what we want the form to gather
 
   return (
-    <div class="card" style="width: 18rem;">
-      {/* <img src="..." class="card-img-top" alt="..."> */}
+    <div class="card" style="width:400px">
+      {/* <img class="card-img-top" src="img_avatar1.png" alt="Card image"> */}
       <div class="card-body">
-        <h5 class="card-title">My Trips</h5>
+        <h4 class="card-title">Trip to Turks and Caicos</h4>
         <p class="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          Summary: Steve Vee paid $xxx amount. Mike Lew owes Rudy Jewels $xxx.
+          Rudy Jewels owes Steve Vee $xxx
         </p>
         <a href="#" class="btn btn-primary">
-          Go somewhere
+          See Other Trips
         </a>
       </div>
     </div>
