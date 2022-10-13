@@ -19,8 +19,7 @@ db.once("open", async () => {
   let tempTripGlobal;
 
   for (newUser of users) {
-    const tempTrip = trips[Math.floor(Math.random() * trips.length)];
-    tempTrip = tempTripGlobal;
+    let tempTrip = trips[Math.floor(Math.random() * trips.length)];
     tempTrip.users.push(newUser._id);
     await tempTrip.save();
 
@@ -29,17 +28,28 @@ db.once("open", async () => {
     await newUser.save();
     // console.log(tempTrip);
 
-    // const totalObj = tempTrip.totalPaid;
-    // totalObj.assign(totalObj, newUser._id);
-    // await tempTrip.save();
     // totalObj.forEach((object) => console.log(object));
     // console.log(
     //   totalObj.map((object) => {
     //     return { ...object, user: newUser._id };
     //   })
     // );
-    // console.log(newUser);
+    // console.log(tempUser._id);
+
+    const totalObj = tempTrip.totalPaid;
+    const amount0 = totalObj;
+    const item0 = Object.assign(amount0[0], { user: newUser._id });
+    await tempTrip.save();
+
+    console.log(item0);
+    tempTripGlobal = tempTrip;
   }
+
+  // const totalObj = tempTripGlobal.totalPaid;
+  // const amount0 = totalObj[0];
+  // const item0 = Object.assign(amount0, { user: newUser._id });
+  // await tempTripGlobal.save();
+  // console.log(item0);
 
   console.log("all done!");
   process.exit(0);

@@ -2,13 +2,13 @@
   "name": "Florida",
   "password": "password",
   "totalPaid": [
-    { "amountPaid": 50 },
-    { "amountPaid": 100 },
-    { "amountPaid": 75 }
+    { "user": null, "amountPaid": 50 },
+    { "user": null, "amountPaid": 100 },
+    { "user": null, "amountPaid": 75 }
   ],
   "expensesPaid": [
-    { "itemDescription": "Rental Car", "amount": 100 },
-    { "itemDescription": "Day One of trip Food", "amount": 75 },
-    { "itemDescription": "Gas for car", "amount": 50 }
+    { "user": null, "itemDescription": "Rental Car", "amount": 100 },
+    { "user": null, "itemDescription": "Day One of trip Food", "amount": 75 },
+    { "user": null, "itemDescription": "Gas for car", "amount": 50 }
   ]
 }
