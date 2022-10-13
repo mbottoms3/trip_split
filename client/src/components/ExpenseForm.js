@@ -37,7 +37,7 @@ function ExpenseForm() {
   };
 
   return (
-    <div className="w-25">
+    <div className="w-100">
       <h3 className="my-3">Add a New Expense</h3>
       <div className="mb-3">
         <label htmlFor="cost" className="form-label">

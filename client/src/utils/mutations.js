@@ -7,7 +7,7 @@ export const ADD_EXPENSE = gql`
     $description: String!
     $purchaser: String!
   ) {
-    addExpense(cost: $cost, description: $description, purchaser: $purchaser) {
+    addExpense(amount: $cost, itemDescription: $description, user: $purchaser) {
       cost
       description
       purchaser
