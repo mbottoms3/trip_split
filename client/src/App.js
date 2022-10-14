@@ -12,6 +12,7 @@ import Auth from "./utils/auth";
 import "./App.css";
 
 import Footer from "./components/Footer";
+import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import MyTrips from "./pages/MyTrips";
 import OneTrip from "./pages/OneTrip";
@@ -19,6 +20,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import FinalTripSplit from "./pages/FinalTripSplit";
 import AddJoinTrip from "./pages/AddJoinTrip";
+import NotFound from "./pages/NotFound";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -47,12 +49,14 @@ function App() {
           {/* <Header /> */}
           <Navbar />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/mytrips" element={<MyTrips />} />
             <Route path="/onetrip" element={<OneTrip />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/finaltripsplit" element={<FinalTripSplit />} />
             <Route path="/addjointrip" element={<AddJoinTrip />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
 
           {/* <Footer /> */}
