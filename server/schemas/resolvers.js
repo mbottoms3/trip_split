@@ -29,20 +29,17 @@ const resolvers = {
   },
 
   Mutation: {
-    // addUserToTrip: async (parent, { tripId, user }) => {
-    //   return Trip.findOneAndUpdate(
-    //     { _id: tripId },
-    //     {
-    //       $addToSet: { users: user },
-    //     },
-    //     { new: true, runValidators: true }
-    //   );
-    // },
-
+    // ADD user
     addUser: async (parent, { email, password, firstName, lastName }) => {
       return User.create({ email, password, firstName, lastName });
     },
-    // Create mutation to sync adding users and trips
+
+    // Add a trip
+    addTrip: async (parent, { name, password }) => {
+      return Trip.create({ name, password });
+    },
+
+    // ADD user to a trip
     addUserToTrip: async (parent, { userId, tripId }) => {
       return Trip.findOneAndUpdate(
         { _id: tripId },
@@ -53,6 +50,7 @@ const resolvers = {
       );
     },
 
+    // ADD trip to a user
     addTripToUser: async (parent, { tripId, userId }) => {
       return User.findOneAndUpdate(
         { _id: userId },
@@ -63,10 +61,7 @@ const resolvers = {
       );
     },
 
-    addTrip: async (parent, { name, password }) => {
-      return Trip.create({ name, password });
-    },
-
+    // ADD an expense to array
     addExpense: async (parent, { tripId, itemDescription, amount, email }) => {
       return Trip.findOneAndUpdate(
         { _id: tripId },
@@ -81,6 +76,7 @@ const resolvers = {
       );
     },
 
+    // DELETE an expense
     removeExpense: async (parent, { tripId, expensePaidId }) => {
       return Trip.findOneAndUpdate(
         { _id: tripId },
@@ -91,6 +87,7 @@ const resolvers = {
       );
     },
 
+    // LOGIN
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -103,6 +100,8 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+
+    // UPDATE an expense(icebox)
     // updateExpense: async (
     //   parent,
     //   { tripId, expensePaidId, itemDescription, amount }
@@ -125,5 +124,3 @@ const resolvers = {
 };
 
 module.exports = resolvers;
-
-// { trip.expensesPaid }
