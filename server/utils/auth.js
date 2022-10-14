@@ -7,13 +7,13 @@ const secret = process.env.SECRET;
 
 // ?? When do we want the token to expire? - maybe 2h?
 
-//const expiration = "";
+const expiration = "2h";
 
 // ?? What do we want for payload? - no sensitive data :) -- email, name, _id??
 
-// module.exports = {
-//   signToken: function ({}) {
-//     const payload = {};
-//     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-//   },
-// };
+module.exports = {
+  signToken: function ({}) {
+    const payload = {};
+    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+  },
+};

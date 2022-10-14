@@ -29,10 +29,11 @@ const tripSchema = new Schema({
   totalPaid: [totalPaidSchema],
   // Array of objects expenses paid [{user id, item description, amount},...]
   expensesPaid: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "expensePaidSchema",
-    },
+    expensePaidSchema,
+    // {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "expensePaidSchema",
+    // },
   ],
 });
 

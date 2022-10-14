@@ -1,12 +1,25 @@
 //This form will go on the login page and ask users for username and password
 import { useState } from "react";
+import { LOGIN_USER } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
+import Auth from "../utils/auth";
+
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [login, { error, data }] = useMutation(LOGIN_USER);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    try {
+      const { data } = await login({
+        variables: { email: email, password: password },
+      });
+
+      Auth.login(data.login.token);
+    } catch (error) {
+      console.error(error);
+    }
     setEmail("");
     setPassword("");
   };

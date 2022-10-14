@@ -13,9 +13,13 @@ const resolvers = {
     user: async (parent, { email }) => {
       return User.findOne({ email }).populate("trips");
     },
-    // find Trip
+    // find Trip by id
     trip: async (parent, { tripId }) => {
       return Trip.findOne({ _id: tripId }).populate("users");
+    },
+    //find Trip by name
+    findTripByName: async (parent, { name }) => {
+      return Trip.findOne({ name: name }).populate("users");
     },
     // find all trips
     trips: async (parent, args) => {
@@ -87,6 +91,18 @@ const resolvers = {
       );
     },
 
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw || !user) {
+        throw new AuthenticationError("Incorrect email or password.");
+      }
+
+      const token = signToken(user);
+      return { token, user };
+    },
     // updateExpense: async (
     //   parent,
     //   { tripId, expensePaidId, itemDescription, amount }

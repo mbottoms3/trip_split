@@ -7,6 +7,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import Auth from "./utils/auth";
 
 import "./App.css";
 
@@ -57,6 +58,7 @@ function App() {
           {/* <Footer /> */}
         </div>
       </Router>{" "}
+      {Auth.loggedIn() ? <h1>Logged in</h1> : <h1>Not logged in</h1>}
       <div className="container">
         {/* <Header /> */}
         {/* // <Navbar />

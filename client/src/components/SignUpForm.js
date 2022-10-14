@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
+import Auth from "../utils/auth";
 
 function SignUpForm() {
   const [email, setEmail] = useState("");
@@ -11,19 +12,31 @@ function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [feedback, setFeedback] = useState("");
 
+  const [addUser, { error, data }] = useMutation(ADD_USER);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newUserPassword === confirmPassword) {
       console.log("Passwords match");
       try {
-        setEmail("");
-        setFirstName("");
-        setLastName("");
-        setNewUserPassword("");
-        setConfirmPassword("");
+        const { data } = await addUser({
+          variables: {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            password: newUserPassword,
+          },
+        });
+        Auth.login(data.addUser.token);
       } catch (error) {
         console.error(error);
       }
+
+      setEmail("");
+      setFirstName("");
+      setLastName("");
+      setNewUserPassword("");
+      setConfirmPassword("");
     } else {
       setFeedback("Passwords do not match");
     }
