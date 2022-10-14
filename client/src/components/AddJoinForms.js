@@ -26,12 +26,12 @@ function AddJoinForms() {
   }
 
   //takes three tries for this to work
-  const handleMouseOut = async () => {
+  const handleSearchName = async () => {
     try {
       await getTripId({ variables: { name: existingName } });
       setTripId(data.findTripByName._id);
       console.log(tripId);
-      if (data === null || data === "" || data === "undefined") {
+      if (!data) {
         console.log("Could not find your trip. Please try again.");
       }
     } catch (error) {
@@ -155,7 +155,7 @@ function AddJoinForms() {
         <h3>Join an Existing Trip</h3>
         <div className="mb-3">
           <label htmlFor="cost" className="form-label">
-            Trip Name:
+            Search for Trip:
           </label>
           <input
             value={existingName}
@@ -164,8 +164,15 @@ function AddJoinForms() {
             type="text"
             placeholder="Breckenridge Camping Trip"
             onChange={handleJoinInputChange}
-            onMouseOut={handleMouseOut}
+            // onMouseOut={handleMouseOut}
           ></input>
+          <button
+            type="submit"
+            className="btn btn-primary mb-2"
+            onClick={handleSearchName}
+          >
+            Submit
+          </button>
         </div>
         <div className="mb-3">
           <label htmlFor="inputPassword3" className="form-label">

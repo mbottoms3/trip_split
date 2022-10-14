@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const secret = process.env.SECRET;
-
 // ?? When do we want the token to expire? - maybe 2h?
 
 const expiration = "2h";
@@ -12,8 +11,9 @@ const expiration = "2h";
 // ?? What do we want for payload? - no sensitive data :) -- email, name, _id??
 
 module.exports = {
-  signToken: function ({}) {
-    const payload = {};
+  signToken: function ({ email, name, _id }) {
+    console.log(secret);
+    const payload = { email, name, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
