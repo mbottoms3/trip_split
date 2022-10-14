@@ -7,7 +7,7 @@ function Feed({ expenses, title }) {
     return <h3>No expenses paid for yet.</h3>;
   }
 
-  expenses.reverse();
+  // expenses.reverse();
 
   return (
     <div>
