@@ -57,6 +57,7 @@ function App() {
           {/* <Footer /> */}
         </div>
       </Router>{" "}
+      {Auth.loggedIn() ? <h1>Logged in</h1> : <h1>Not logged in</h1>}
       <div className="container">
         {/* <Header /> */}
         {/* // <Navbar />
