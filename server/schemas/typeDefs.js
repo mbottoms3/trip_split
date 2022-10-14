@@ -46,7 +46,7 @@ const typeDefs = gql`
       lastName: String!
     ): User
     addUserToTrip(userId: ID!, tripId: ID!): Trip
-    addTripToUser(userId: ID!, tripId: ID!): User
+    addTripToUser(tripId: ID!, userId: ID!): User
     addTrip(name: String!, password: String!): Trip
     addExpense(
       tripId: ID!

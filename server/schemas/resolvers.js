@@ -49,8 +49,14 @@ const resolvers = {
       );
     },
 
-    addTripToUser: async (parent, { userId, trip }) => {
-      return User.findByIdAndUpdate(userId, { $push: { trips: trip._id } });
+    addTripToUser: async (parent, { tripId, userId }) => {
+      return User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $addToSet: { trips: { _id: tripId } },
+        },
+        { new: true }
+      );
     },
 
     addTrip: async (parent, { name, password }) => {
