@@ -20,6 +20,9 @@ export const QUERY_SINGLE_TRIP = gql`
         firstName
       }
       expensesPaid {
+        firstName
+        lastName
+        email
         itemDescription
         amount
       }
