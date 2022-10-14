@@ -91,6 +91,18 @@ const resolvers = {
       );
     },
 
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw || !user) {
+        throw new AuthenticationError("Incorrect email or password.");
+      }
+
+      const token = signToken(user);
+      return { token, user };
+    },
     // updateExpense: async (
     //   parent,
     //   { tripId, expensePaidId, itemDescription, amount }
