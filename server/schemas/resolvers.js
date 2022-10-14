@@ -25,6 +25,40 @@ const resolvers = {
   },
 
   Mutation: {
+    // addUserToTrip: async (parent, { tripId, user }) => {
+    //   return Trip.findOneAndUpdate(
+    //     { _id: tripId },
+    //     {
+    //       $addToSet: { users: user },
+    //     },
+    //     { new: true, runValidators: true }
+    //   );
+    // },
+
+    addUser: async (parent, { email, password, firstName, lastName }) => {
+      return User.create({ email, password, firstName, lastName });
+    },
+
+    addUserToTrip: async (parent, { userId, tripId }) => {
+      return Trip.findOneAndUpdate(
+        { _id: tripId },
+        {
+          $addToSet: { users: { _id: userId } },
+        },
+        { new: true }
+      );
+    },
+
+    addTripToUser: async (parent, { tripId, userId }) => {
+      return User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $addToSet: { trips: { _id: tripId } },
+        },
+        { new: true }
+      );
+    },
+
     addTrip: async (parent, { name, password }) => {
       return Trip.create({ name, password });
     },
@@ -34,6 +68,7 @@ const resolvers = {
         { _id: tripId },
         {
           $addToSet: { expensesPaid: { itemDescription, amount, email } },
+          // $addToSet: { totalPaid: { email, amount } },
         },
         {
           new: true,
@@ -52,24 +87,24 @@ const resolvers = {
       );
     },
 
-    updateExpense: async (
-      parent,
-      { tripId, expensePaidId, itemDescription, amount }
-    ) => {
-      return Trip.findOneAndUpdate(
-        { _id: tripId },
-        {
-          $set: {
-            expensesPaid: {
-              _id: expensePaidId,
-              itemDescription: itemDescription,
-              amount: amount,
-            },
-          },
-        },
-        { new: true }
-      );
-    },
+    // updateExpense: async (
+    //   parent,
+    //   { tripId, expensePaidId, itemDescription, amount }
+    // ) => {
+    //   return Trip.findOneAndUpdate(
+    //     { _id: tripId },
+    //     {
+    //       $set: {
+    //         expensesPaid: {
+    //           _id: expensePaidId,
+    //           itemDescription: itemDescription,
+    //           amount: amount,
+    //         },
+    //       },
+    //     },
+    //     { new: true }
+    //   );
+    // },
   },
 };
 
