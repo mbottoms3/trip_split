@@ -27,11 +27,14 @@ db.once("open", async () => {
     //assigning user Id to total paid objects --> will be in user order
     for (i = 0; i < tempTrip.totalPaid.length; i++) {
       tempTrip.totalPaid[i].user = users[i]._id;
+      tempTrip.totalPaid[i].email = users[i].email;
     }
 
     //assigning user Id to expenses paid objects --> will be in user order
     for (i = 0; i < tempTrip.expensesPaid.length; i++) {
       tempTrip.expensesPaid[i].user = users[i]._id;
+      tempTrip.expensesPaid[i].email = users[i].email;
+      // console.log(users[i].email);
     }
   }
 

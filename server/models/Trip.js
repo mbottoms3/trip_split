@@ -28,7 +28,12 @@ const tripSchema = new Schema({
   // Array of objects total paid for each user [{user id, amount paid}, {user id, amount paid}]
   totalPaid: [totalPaidSchema],
   // Array of objects expenses paid [{user id, item description, amount},...]
-  expensesPaid: [expensePaidSchema],
+  expensesPaid: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "expensePaidSchema",
+    },
+  ],
 });
 
 tripSchema.pre("save", async function (next) {
