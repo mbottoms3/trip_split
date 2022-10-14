@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
+import "./NavBar.css";
 
 function Navbar() {
   const logout = (event) => {
@@ -14,10 +15,10 @@ function Navbar() {
         <button
           className="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNavDropdown"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown"
-          aria-expanded="false"
+          expand="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
