@@ -1,5 +1,9 @@
 //This component will have a list of final transactions for users once the finalsplit button is clicked
-function FinalSplit() {
+import { useLocation } from "react-router-dom";
+function FinalSplit(props) {
+  const location = useLocation();
+  const { tripExpenses } = location.state;
+  console.log(tripExpenses);
   return (
     // need to run the algorithm
     // with output from algorithm, map over and render list items based on output

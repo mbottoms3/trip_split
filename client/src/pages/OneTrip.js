@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -48,6 +48,11 @@ function OneTrip() {
     setChartData(graphData);
   }
 
+  function handleSplit(e) {
+    e.preventDefault();
+    console.log("clicked");
+    window.location.replace("/finaltripsplit");
+  }
   return (
     <div>
       <h2 className="my-3">{trip.name}</h2>
@@ -58,6 +63,13 @@ function OneTrip() {
         <div className="w-50">
           <h3 className="my-3">Trip Expense Status by User</h3>
           <BarChart chartData={chartData} />
+          <Link
+            className="btn btn-primary"
+            to={"/finaltripsplit"}
+            state={{ tripExpenses: trip.expensesPaid }}
+          >
+            Final Trip $plit
+          </Link>
         </div>
       </div>
       <Feed expenses={trip.expensesPaid} title="Trip Feed:" />
