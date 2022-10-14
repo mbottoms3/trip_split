@@ -51,10 +51,10 @@ function LoginForm() {
         </label>
         <input
           value={password}
-          className="form-control"
-          type="text"
-          placeholder="password"
           name="password"
+          type="password"
+          className="form-control"
+          placeholder="password"
           onChange={handleInputChange}
         ></input>
       </div>

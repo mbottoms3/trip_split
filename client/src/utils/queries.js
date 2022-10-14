@@ -35,3 +35,17 @@ export const QUERY_TRIP = gql`
     }
   }
 `;
+
+//used to access all the trips the user is in to display their trips
+export const QUERY_USER_TRIPS = gql`
+  query user($email: String!) {
+    user(email: $email) {
+      _id
+      email
+      trips {
+        _id
+        name
+      }
+    }
+  }
+`;
