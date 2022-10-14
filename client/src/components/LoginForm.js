@@ -15,7 +15,7 @@ function LoginForm() {
       const { data } = await login({
         variables: { email: email, password: password },
       });
-
+      console.log(data);
       Auth.login(data.login.token);
     } catch (error) {
       console.error(error);

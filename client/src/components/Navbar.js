@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Auth from "../utils/auth";
 
 function Navbar() {
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+  };
   return (
     <div>
       <h1 className="p-3 text-center">Welcome to Trip $plit</h1>
@@ -43,7 +48,7 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" onClick={logout}>
                   Logout
                 </a>
               </li>
