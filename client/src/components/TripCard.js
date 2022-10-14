@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
-function TripCard(props) {
+function TripCard({userTrips}) {
+
   return (
     <div>
       {" "}
-      {props.trips &&
-        props.trips.map((trip) => (
+      {userTrips &&
+        userTrips.map((trip) => (
           <div key={trip._id} className="card">
             {/* <img class="card-img-top" src="img_avatar1.png" alt="Card image"> */}
             <div className="card-body">
