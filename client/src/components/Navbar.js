@@ -49,9 +49,9 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" onClick={logout}>
+                <Link className="nav-link" onClick={logout} to={"/"}>
                   Logout
-                </a>
+                </Link>
               </li>
             </div>
           </ul>
