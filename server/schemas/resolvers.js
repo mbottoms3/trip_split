@@ -40,7 +40,9 @@ const resolvers = {
     // },
 
     addUser: async (parent, { email, password, firstName, lastName }) => {
-      return User.create({ email, password, firstName, lastName });
+      const user = await User.create({ email, password, firstName, lastName });
+      const token = signToken(user);
+      return { token, user };
     },
 
     addUserToTrip: async (parent, { userId, tripId }) => {
