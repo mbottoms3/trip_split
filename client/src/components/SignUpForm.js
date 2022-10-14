@@ -12,7 +12,7 @@ function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [feedback, setFeedback] = useState("");
 
-  const [addUser, { error, data }] = userMutation(ADD_USER);
+  const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

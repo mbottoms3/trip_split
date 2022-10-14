@@ -1,13 +1,28 @@
-const jwt = require("jsonwebtoken");
+import decode from "jwt-decode";
 
-require("dotenv").config();
+class AuthService {
+  getProfile() {
+    return decode(this.getToken());
+  }
 
-const secret = "mysecretssshhhhhhh";
-const expiration = "2h";
+  loggedIn() {
+    const token = this.getToken;
+    return token ? true : false;
+  }
 
-module.exports = {
-  signToken: function ({ email, name, _id }) {
-    const payload = { email, name, _id };
-    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-  },
-};
+  getToken() {
+    return localStorage.getItem("id_token");
+  }
+
+  login(idToken) {
+    localStorage.setItem("id_token", idToken);
+    window.location.assign("/mytrips");
+  }
+
+  logout() {
+    localStorage.removeItem("id_token");
+    window.location.reload("/");
+  }
+}
+
+export default new AuthService();
