@@ -52,23 +52,23 @@ const resolvers = {
       );
     },
 
-    updateExpense: async (
-      parent,
-      { expensePaidId, itemDescription, amount }
-    ) => {
-      return expensePaidSchema.findOneAndUpdate(
-        { _id: expensePaidId },
-        {
-          $set: {
-            expensesPaid: {
-              itemDescription: itemDescription,
-              amount: amount,
-            },
-          },
-        },
-        { new: true }
-      );
-    },
+    // updateExpense: async (
+    //   parent,
+    //   { expensePaidId, itemDescription, amount }
+    // ) => {
+    //   return expensePaidSchema.findOneAndUpdate(
+    //     { _id: expensePaidId },
+    //     {
+    //       $set: {
+    //         expensesPaid: {
+    //           itemDescription: itemDescription,
+    //           amount: amount,
+    //         },
+    //       },
+    //     },
+    //     { new: true }
+    //   );
+    // },
   },
 };
 

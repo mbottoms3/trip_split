@@ -7,6 +7,8 @@ function Feed({ expenses, title }) {
     return <h3>No expenses paid for yet.</h3>;
   }
 
+  expenses.reverse();
+
   return (
     <div>
       <h3 className="my-3">{title}</h3>
