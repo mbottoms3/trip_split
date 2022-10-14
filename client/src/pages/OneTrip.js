@@ -33,7 +33,7 @@ function OneTrip() {
   });
 
   const trip = data?.trip || {};
-  console.log(trip.name);
+  console.log(trip);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -53,7 +53,7 @@ function OneTrip() {
       <h2 className="my-3">{trip.name}</h2>
       <div className="d-flex justify-content-between">
         <div className="">
-          <ExpenseForm />
+          <ExpenseForm tripId={trip._id} />
         </div>
         <div className="w-50">
           <h3 className="my-3">Trip Expense Status by User</h3>

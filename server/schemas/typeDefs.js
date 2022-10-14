@@ -1,5 +1,6 @@
 const { gql } = require("apollo-server-express");
 
+//Potentially need to add "Auth" after addUser instead of "User"
 const typeDefs = gql`
   type User {
     _id: ID
@@ -18,6 +19,10 @@ const typeDefs = gql`
     expensesPaid: [expensePaid]
   }
 
+  type Auth {
+    token: ID!
+    user: User
+  }
   type totalPaid {
     user: [User]
     amountPaid: Float
@@ -34,21 +39,35 @@ const typeDefs = gql`
     users: [User]
     user(email: String!): User
     trip(tripId: ID!): Trip
+    findTripByName(name: String!): Trip
     trips: [Trip]
     #GET all expenses
   }
 
   type Mutation {
-    #addUser(email: String!, password: String!, firstName: String!, lastName: String!): Auth
-    #login(email: String!, password: String!): Auth
+    login(email: String!, password: String!): Auth
+    addUser(
+      email: String!
+      password: String!
+      firstName: String!
+      lastName: String!
+    ): User
+
+    addUserToTrip(userId: ID!, tripId: ID!): Trip
+
+    addTripToUser(tripId: ID!, userId: ID!): User
+
     addTrip(name: String!, password: String!): Trip
+
     addExpense(
       tripId: ID!
       itemDescription: String!
       amount: Float!
       email: String!
     ): Trip
+
     removeExpense(tripId: ID!, expensePaidId: ID!): Trip
+
     updateExpense(
       tripId: ID
       expensePaidId: ID!
