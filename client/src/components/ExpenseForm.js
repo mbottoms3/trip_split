@@ -56,7 +56,7 @@ function ExpenseForm({ tripId }) {
         <input
           value={cost}
           className="form-control m-10"
-          type="number"
+          type="text"
           placeholder="150.00"
           name="cost"
           onChange={handleInputChange}

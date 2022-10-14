@@ -39,3 +39,37 @@ export const ADD_TRIP = gql`
     }
   }
 `;
+
+export const UPDATE_TRIP = gql`
+  mutation addUserToTrip($userId: ID!, $tripId: ID!) {
+    addUserToTrip(userId: $userId, tripId: $tripId) {
+      _id
+      name
+      users {
+        _id
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation addTripToUser($tripId: ID!, $userId: ID!) {
+    addTripToUser(tripId: $tripId, userId: $userId) {
+      trips {
+        _id
+      }
+    }
+  }
+`;
+
+export const LOGIN_USER = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      profile {
+        _id
+        name
+      }
+    }
+  }
+`;
