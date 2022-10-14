@@ -42,7 +42,7 @@ const resolvers = {
     addUser: async (parent, { email, password, firstName, lastName }) => {
       return User.create({ email, password, firstName, lastName });
     },
-
+    // Create mutation to sync adding users and trips
     addUserToTrip: async (parent, { userId, tripId }) => {
       return Trip.findOneAndUpdate(
         { _id: tripId },
