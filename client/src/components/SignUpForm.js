@@ -18,6 +18,7 @@ function SignUpForm() {
     e.preventDefault();
     if (newUserPassword === confirmPassword) {
       console.log("Passwords match");
+      setFeedback("Passwords match");
       try {
         const { data } = await addUser({
           variables: {
@@ -124,6 +125,7 @@ function SignUpForm() {
           placeholder="Confirm Password"
           onChange={handleInputChange}
         ></input>
+        <p className="py-3">{feedback}</p>
       </div>
       <div className="col-auto d-flex justify-content-end">
         <button
