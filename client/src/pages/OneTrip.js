@@ -32,6 +32,9 @@ function OneTrip() {
   });
 
   const trip = data?.trip || {};
+
+  console.log(trip.users);
+  
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -64,7 +67,7 @@ function OneTrip() {
           <Link
             className="btn btn-primary"
             to="/finaltripsplit"
-            state={{ expenses: trip.expensesPaid }}
+            state={{ expenses: trip.expensesPaid, users: trip.users }}
           >
             Final Trip $plit
           </Link>
