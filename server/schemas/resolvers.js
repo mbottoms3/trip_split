@@ -94,11 +94,13 @@ const resolvers = {
     },
 
     login: async (parent, { email, password }) => {
+      console.log("inside login in resolvers");
       const user = await User.findOne({ email });
-
+      console.log(user);
       const correctPw = await user.isCorrectPassword(password);
-
+      console.log(correctPw);
       if (!correctPw || !user) {
+        console.log("didn't work");
         throw new AuthenticationError("Incorrect email or password.");
       }
 
