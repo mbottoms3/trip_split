@@ -33,7 +33,7 @@ function OneTrip() {
   });
 
   const trip = data?.trip || {};
-  console.log(trip);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -44,15 +44,15 @@ function OneTrip() {
     //map through array and change number to color based on comparison to average
   }
 
-  function handleClick(e) {
-    setChartData(graphData);
-  }
+  // function handleClick(e) {
+  //   setChartData(graphData);
+  // }
 
-  function handleSplit(e) {
-    e.preventDefault();
-    console.log("clicked");
-    window.location.replace("/finaltripsplit");
-  }
+  // function handleSplit(e) {
+  //   e.preventDefault();
+  //   console.log("clicked");
+  //   window.location.replace("/finaltripsplit");
+  // }
   return (
     <div>
       <h2 className="my-3">{trip.name}</h2>
@@ -65,8 +65,8 @@ function OneTrip() {
           <BarChart chartData={chartData} />
           <Link
             className="btn btn-primary"
-            to={"/finaltripsplit"}
-            state={{ tripExpenses: trip.expensesPaid }}
+            to="/finaltripsplit"
+            state={{ expenses: trip.expensesPaid }}
           >
             Final Trip $plit
           </Link>
