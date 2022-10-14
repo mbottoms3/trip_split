@@ -25,7 +25,6 @@ function OneTrip() {
   //grabs the trip id from the state on the link before
   const location = useLocation();
   const { tripId } = location.state;
-  console.log(tripId);
 
   //fetch this trip's data from the database
   const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
@@ -33,6 +32,7 @@ function OneTrip() {
   });
 
   const trip = data?.trip || {};
+  console.log(trip.users);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -66,7 +66,7 @@ function OneTrip() {
           <Link
             className="btn btn-primary"
             to="/finaltripsplit"
-            state={{ expenses: trip.expensesPaid }}
+            state={{ expenses: trip.expensesPaid, users: trip.users }}
           >
             Final Trip $plit
           </Link>

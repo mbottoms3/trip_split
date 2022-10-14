@@ -1,7 +1,12 @@
 //This component will have a list of final transactions for users once the finalsplit button is clicked
-import totalPaid from "../utils/helpers";
+import { createTotalArray, split } from "../utils/helpers";
 function FinalSplit(props) {
-  const totalPaid = createTotalArray(userArray, expensesArray);
+  const totalPaid = createTotalArray(props.users, props.expenses);
+  //this is
+
+  //total paid is working, split is return undefined for some reason?
+  const output = split(totalPaid);
+
   return (
     // need to run the algorithm
     // with output from algorithm, map over and render list items based on output
