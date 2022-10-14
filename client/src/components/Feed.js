@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 //inside One trip page, Feed will be called and data.expenses (array of objects) will be passed in as a prop
 function Feed({ expenses, title }) {
-  console.log(expenses);
+  // console.log(expenses);
   if (!expenses.length) {
     return <h3>No expenses paid for yet.</h3>;
   }

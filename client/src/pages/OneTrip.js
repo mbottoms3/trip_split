@@ -11,11 +11,11 @@ import BarChart from "../components/BarChart";
 
 function OneTrip() {
   const graphData = {
-    labels: ["User 1", "User 2", "User 3"],
+    // labels: ["User 1", "User 2", "User 3"],
     datasets: [
       {
         label: "Trip Expense Status by User",
-        data: [150, 55, 63],
+        // data: [150, 55, 63],
         backgroundColor: ["#ffbb11", "#ffbb11", "#ffbb11"],
         borderWidth: 1,
       },
@@ -25,7 +25,6 @@ function OneTrip() {
   //grabs the trip id from the state on the link before
   const location = useLocation();
   const { tripId } = location.state;
-  console.log(tripId);
 
   //fetch this trip's data from the database
   const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
@@ -33,7 +32,6 @@ function OneTrip() {
   });
 
   const trip = data?.trip || {};
-  console.log(trip);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -57,7 +55,7 @@ function OneTrip() {
         </div>
         <div className="w-50">
           <h3 className="my-3">Trip Expense Status by User</h3>
-          <BarChart chartData={chartData} />
+          <BarChart chartData={chartData} tripData={trip} />
         </div>
       </div>
       <Feed expenses={trip.expensesPaid} title="Trip Feed:" />
