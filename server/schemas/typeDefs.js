@@ -34,6 +34,7 @@ const typeDefs = gql`
     users: [User]
     user(email: String!): User
     trip(tripId: ID!): Trip
+    findTripByName(name: String!): Trip
     trips: [Trip]
     #GET all expenses
   }
@@ -45,16 +46,22 @@ const typeDefs = gql`
       firstName: String!
       lastName: String!
     ): User
+
     addUserToTrip(userId: ID!, tripId: ID!): Trip
+
     addTripToUser(tripId: ID!, userId: ID!): User
+
     addTrip(name: String!, password: String!): Trip
+
     addExpense(
       tripId: ID!
       itemDescription: String!
       amount: Float!
       email: String!
     ): Trip
+
     removeExpense(tripId: ID!, expensePaidId: ID!): Trip
+
     updateExpense(
       tripId: ID
       expensePaidId: ID!

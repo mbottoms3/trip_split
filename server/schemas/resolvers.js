@@ -13,9 +13,13 @@ const resolvers = {
     user: async (parent, { email }) => {
       return User.findOne({ email }).populate("trips");
     },
-    // find Trip
+    // find Trip by id
     trip: async (parent, { tripId }) => {
       return Trip.findOne({ _id: tripId }).populate("users");
+    },
+    //find Trip by name
+    findTripByName: async (parent, { name }) => {
+      return Trip.findOne({ name: name }).populate("users");
     },
     // find all trips
     trips: async (parent, args) => {
