@@ -12,8 +12,8 @@ const expiration = "2h";
 // ?? What do we want for payload? - no sensitive data :) -- email, name, _id??
 
 module.exports = {
-  signToken: function ({}) {
-    const payload = {};
+  signToken: function ({ email, name, _id }) {
+    const payload = { email, name, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
