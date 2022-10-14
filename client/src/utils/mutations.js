@@ -74,4 +74,23 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const ADD_USER = gql``;
+export const ADD_USER = gql`
+  mutation addUser(
+    $email: String!
+    $password: String!
+    $firstName: String!
+    $lastName: String!
+  ) {
+    addUser(
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+    ) {
+      _id
+      trips {
+        _id
+      }
+    }
+  }
+`;
