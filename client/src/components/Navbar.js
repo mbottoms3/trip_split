@@ -27,11 +27,6 @@ function Navbar() {
             <div className="d-flex">
               <li className="nav-item">
                 <Link className="btn btn-dark m-2" to={"/mytrips"}>
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="btn btn-dark m-2" to={"/mytrips"}>
                   My Trips
                 </Link>
               </li>
