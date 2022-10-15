@@ -181,7 +181,7 @@ function AddJoinForms() {
             // onMouseOut={handleMouseOut}
           ></input>
         </div>
-        <div className="mb-3">
+        <div className="pt-4 my-3">
           <label htmlFor="inputPassword3" className="form-label">
             Trip Password:
           </label>

@@ -8,6 +8,7 @@ function Navbar() {
     event.preventDefault();
     Auth.logout();
   };
+  // console.log(Auth.loggedIn);
   return (
     <div>
       <h1 className="p-3 text-center">Welcome to Trip $plit</h1>
@@ -26,11 +27,17 @@ function Navbar() {
         <div className="collapse navbar-collapse p-3" id="navbarNavDropdown">
           <ul className="navbar-nav d-flex justify-content-between w-100">
             <div className="d-flex">
-              <li className="nav-item">
+              {Auth.loggedIn() ? (
                 <Link className="btn btn-dark m-2" to={"/mytrips"}>
                   My Trips
                 </Link>
-              </li>
+              ) : (
+                <>
+                  <h5 className="text-primary m-2 px-4">
+                    Please login or create an account
+                  </h5>
+                </>
+              )}
               <li className="nav-item">
                 <Link className="btn btn-dark m-2" to={"/addjointrip"}>
                   Add/Join Trip
@@ -38,21 +45,35 @@ function Navbar() {
               </li>
             </div>
             <div className="d-flex">
-              <li className="nav-item">
-                <Link className="nav-link" to={"/login"}>
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/signup"}>
-                  Sign Up
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" onClick={logout}>
-                  Logout
-                </a>
-              </li>
+
+              {Auth.loggedIn() ? (
+                <li className="nav-item">
+                  <a className="nav-link btn btn-info" onClick={logout}>
+                    Logout
+                  </a>
+                </li>
+              ) : (
+                <>
+                  <Link className="nav-link btn btn-light" to={"/login"}>
+                    Login
+                  </Link>
+
+                  <Link
+                    className="nav-link btn btn-light px-2 mx-2"
+                    to={"/signup"}
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+
+              {/* <li className="nav-item">
+                
+            </li>
+            <li className="nav-item">
+              
+            </li> */}
+
             </div>
           </ul>
         </div>

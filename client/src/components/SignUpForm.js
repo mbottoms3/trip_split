@@ -28,7 +28,7 @@ function SignUpForm() {
             password: newUserPassword,
           },
         });
-        Auth.login(data.addUser.token);
+        Auth.signUp(data.addUser.token);
       } catch (error) {
         console.error(error);
       }

@@ -1,19 +1,22 @@
 import { Bar } from "react-chartjs-2";
+import { createTotalArray } from "../utils/helpers";
 
 function BarChart({ chartData, tripData }) {
-  var userArr = [];
-  var expensesArr = [];
-  for (const user of tripData.expensesPaid) {
-    userArr.push(user.email);
-    expensesArr.push(user.amount);
+  let labels = [];
+  let dataArr = [];
+  const totalArr = createTotalArray(tripData.users, tripData.expensesPaid);
+
+  for (const data of totalArr) {
+    labels.push(data.firstName);
+    dataArr.push(data.paid);
   }
 
   const graphData = {
-    labels: userArr,
+    labels: labels,
     datasets: [
       {
         label: "Trip Expense Status by User",
-        data: expensesArr,
+        data: dataArr,
         backgroundColor: ["#ffbb11"],
         borderWidth: 1,
       },

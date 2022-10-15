@@ -42,6 +42,8 @@ export const QUERY_USER_TRIPS = gql`
     user(email: $email) {
       _id
       email
+      firstName
+      lastName
       trips {
         _id
         name
