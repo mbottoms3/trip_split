@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { ADD_EXPENSE } from "../utils/mutations";
 import { QUERY_SINGLE_TRIP } from "../utils/queries";
 
-function ExpenseForm({ tripId, expenses, title }) {
+function ExpenseForm({ tripId, expenses, title, users }) {
   function reverseArr(input) {
     var ret = new Array();
     for (var i = input.length - 1; i >= 0; i--) {
@@ -27,20 +27,25 @@ function ExpenseForm({ tripId, expenses, title }) {
 
   //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
   const [addExpense, { error }] = useMutation(ADD_EXPENSE);
+
   if (error) {
     console.log(JSON.stringify(error));
   }
+
   const handleSubmit = async (e) => {
+    const inputName = users.find((user) => user.email === purchaser);
     const costNum = parseInt(cost);
     setExpenseArray([
       {
         __typename: "expensePaid",
+        name: inputName.firstName,
         email: purchaser,
         itemDescription: description,
         amount: costNum,
       },
       ...expenseArray,
     ]);
+
     e.preventDefault();
     try {
       const { data } = await addExpense({
@@ -51,11 +56,7 @@ function ExpenseForm({ tripId, expenses, title }) {
           email: purchaser,
         },
       });
-      // expenseArray.push({
-      //   email: purchaser,
-      //   itemDescription: description,
-      //   amount: costNum,
-      // });
+
       setCost("");
       setDescription("");
       setPurchaser("");
@@ -144,7 +145,7 @@ function ExpenseForm({ tripId, expenses, title }) {
           expenseArray.map((expense) => (
             <div>
               <li key={Math.random()} className="list-group-item">
-                {expense.email} purchased {expense.itemDescription} for $
+                {expense.name} purchased {expense.itemDescription} for $
                 {expense.amount}
               </li>
             </div>
