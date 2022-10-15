@@ -7,7 +7,7 @@ class AuthService {
   }
 
   loggedIn() {
-    const token = this.getToken;
+    const token = this.getToken();
     return token ? true : false;
   }
 
