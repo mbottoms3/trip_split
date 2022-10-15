@@ -54,9 +54,9 @@ function OneTrip() {
   // }
   return (
     <div>
-      <h2 className="my-3">{trip.name}</h2>
+      <h2 className="m-3">{trip.name}</h2>
       <div className="d-flex w-100">
-        <div className="col-4">
+        <div className="col-4 m-3">
           <ExpenseForm
             tripId={trip._id}
             expenses={trip.expensesPaid}

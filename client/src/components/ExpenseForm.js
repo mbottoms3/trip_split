@@ -162,11 +162,17 @@ function ExpenseForm({ tripId, expenses, title, users }) {
           <h3 className="my-3">{title}</h3>
           {expenseArray &&
             expenseArray.map((expense) => (
-              <div>
-                <li key={Math.random()} className="list-group-item m-2 p-2">
+              <div className="d-flex align-items-center justify-content-between">
+                <li
+                  key={Math.random()}
+                  className="list-unstyled m-2 p-2 flex-fill"
+                >
                   {expense.name} {expense.lastName} purchased{" "}
-                  {expense.itemDescription} for ${expense.amount}
+                  {expense.itemDescription} for ${expense.amount}{" "}
                 </li>
+                <div className="icon">
+                  <i className="fa-solid fa-trash-can"></i>
+                </div>
               </div>
             ))}
         </div>

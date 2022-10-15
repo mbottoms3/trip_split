@@ -12,7 +12,7 @@
 }
 #main {
   background-color: var(--green);
-  height: 100vh;
+  height: 100%;
 }
 
 .btn {
@@ -27,7 +27,7 @@
 }
 
 .navbar {
-  background-color: white;
+  background-color: var(--dark);
 }
 .App {
   text-align: center;
@@ -45,12 +45,18 @@
 }
 
 #navbar {
-  background-color: var(--dark);
+  background-color: var(--green);
   display: flex;
   flex-direction: column;
-  color: white;
+  color: var(--dark);
 }
-
+.navbar-brand {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  left: 15px;
+  background-size: contain;
+}
 .one-trip {
   color: white;
 }
@@ -65,6 +71,11 @@
   background-color: white;
   border-radius: 5px;
 }
+
+.icon:hover {
+  cursor: pointer;
+}
+
 .card {
   background-color: var(--dark);
   color: white;
@@ -72,6 +83,7 @@
 .bar-chart {
   background-color: white;
   border-radius: 5px;
+  width: 90%;
 }
 .App-link {
   color: #61dafb;
