@@ -10,7 +10,9 @@
   /* font-family: "Roboto", sans-serif; */
   /* font-family: "Roboto Condensed", sans-serif; */
 }
-#main {
+html,
+#main,
+#root {
   background-color: var(--green);
   height: 100%;
 }
@@ -83,7 +85,7 @@
 .bar-chart {
   background-color: white;
   border-radius: 5px;
-  width: 90%;
+  width: 70%;
 }
 .App-link {
   color: #61dafb;
