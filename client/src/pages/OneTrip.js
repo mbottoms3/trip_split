@@ -60,6 +60,7 @@ function OneTrip() {
           <ExpenseForm
             tripId={trip._id}
             expenses={trip.expensesPaid}
+            users={trip.users}
             title="Trip Feed:"
           />
         </div>

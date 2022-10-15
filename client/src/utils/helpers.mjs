@@ -47,11 +47,13 @@ const array = [
   },
 ];
 
-console.log(split(array));
 export function createTotalArray(users, expenses) {
   const finalArray = [];
   for (let i = 0; i < users.length; i++) {
     const user = users[i].email;
+
+    const firstName = users[i].firstName;
+    console.log(firstName);
     // console.log(user);
     let paid = expenses.reduce((total, object) => {
       if (object.email === user) {
@@ -61,9 +63,10 @@ export function createTotalArray(users, expenses) {
         return total;
       }
     }, 0);
-    const item = { user, paid };
+    const item = { firstName, paid };
     finalArray.push(item);
   }
+  console.log(finalArray);
   return finalArray;
 }
 
@@ -99,8 +102,8 @@ export function split(array) {
       if (Math.abs(negativePaid[n].paid) < positivePaid[p].paid) {
         const amountToPay = negativePaid[n].paid;
         output.push({
-          owedFrom: negativePaid[n].user,
-          owedTo: positivePaid[p].user,
+          owedFrom: negativePaid[n].firstName,
+          owedTo: positivePaid[p].firstName,
           amount: `$${Math.abs(amountToPay).toFixed(2)}`,
         });
         //add to negative person's paid
@@ -116,8 +119,8 @@ export function split(array) {
         const amountToPay = positivePaid[p].paid;
         //if negative person owes more than positive person needs
         output.push({
-          owedFrom: negativePaid[n].user,
-          owedTo: positivePaid[p].user,
+          owedFrom: negativePaid[n].firstName,
+          owedTo: positivePaid[p].firstName,
           amount: `$${Math.abs(amountToPay).toFixed(2)}`,
         });
         //add to negative person's paid
@@ -214,5 +217,3 @@ export function split(array) {
 // }
 
 // console.log(split(createTotalArray(users, expenses)));
-
-export { createTotalArray };
