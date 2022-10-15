@@ -1,11 +1,29 @@
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ADD_EXPENSE } from "../utils/mutations";
+import { QUERY_SINGLE_TRIP } from "../utils/queries";
 
-function ExpenseForm({ tripId }) {
+function ExpenseForm({ tripId, expenses, title }) {
+  function reverseArr(input) {
+    var ret = new Array();
+    for (var i = input.length - 1; i >= 0; i--) {
+      ret.push(input[i]);
+    }
+    return ret;
+  }
+  const newArray = reverseArr(expenses);
+  console.log(newArray);
+
   const [cost, setCost] = useState();
   const [description, setDescription] = useState("");
   const [purchaser, setPurchaser] = useState("");
+  const [expenseArray, setExpenseArray] = useState(newArray);
+
+  console.log(expenseArray);
+  // const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
+  //   variables: { tripId: tripId },
+  // });
+  // const trip = data?.trip || {};
 
   //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
   const [addExpense, { error }] = useMutation(ADD_EXPENSE);
@@ -14,8 +32,15 @@ function ExpenseForm({ tripId }) {
   }
   const handleSubmit = async (e) => {
     const costNum = parseInt(cost);
-    console.log(typeof costNum);
-    console.log(tripId, description, costNum, purchaser);
+    setExpenseArray([
+      {
+        __typename: "expensePaid",
+        email: purchaser,
+        itemDescription: description,
+        amount: costNum,
+      },
+      ...expenseArray,
+    ]);
     e.preventDefault();
     try {
       const { data } = await addExpense({
@@ -26,12 +51,22 @@ function ExpenseForm({ tripId }) {
           email: purchaser,
         },
       });
-      setCost();
+      // expenseArray.push({
+      //   email: purchaser,
+      //   itemDescription: description,
+      //   amount: costNum,
+      // });
+      setCost("");
       setDescription("");
       setPurchaser("");
       console.log(data);
     } catch (err) {
       console.error(err);
+    }
+
+    try {
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -45,6 +80,10 @@ function ExpenseForm({ tripId }) {
       ? setDescription(value)
       : setPurchaser(value);
   };
+
+  if (!expenses.length) {
+    return <h3>No expenses paid for yet.</h3>;
+  }
 
   return (
     <div className="w-100">
@@ -96,8 +135,21 @@ function ExpenseForm({ tripId }) {
         >
           Submit
         </button>
+        {/* feed starts here */}
       </div>
       <ul className="list-group"></ul>
+      <div>
+        <h3 className="my-3">{title}</h3>
+        {expenseArray &&
+          expenseArray.map((expense) => (
+            <div>
+              <li key={Math.random()} className="list-group-item">
+                {expense.email} purchased {expense.itemDescription} for $
+                {expense.amount}
+              </li>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
