@@ -10,7 +10,7 @@ function Navbar() {
   };
   // console.log(Auth.loggedIn);
   return (
-    <div>
+    <div id="navbar" className="w-100">
       <h1 className="p-3 text-center">Welcome to Trip $plit</h1>
       <nav className="navbar navbar-expand-lg  navbar-light bg-light">
         <button
@@ -33,9 +33,9 @@ function Navbar() {
                 </Link>
               ) : (
                 <>
-                  <h5 className="text-primary m-2 px-4">
+                  {/* <h5 className="text-primary m-2 px-4">
                     Please login or create an account
-                  </h5>
+                  </h5> */}
                 </>
               )}
               <li className="nav-item">
@@ -45,7 +45,6 @@ function Navbar() {
               </li>
             </div>
             <div className="d-flex">
-
               {Auth.loggedIn() ? (
                 <li className="nav-item">
                   <a className="nav-link btn btn-info" onClick={logout}>
@@ -73,7 +72,6 @@ function Navbar() {
             <li className="nav-item">
               
             </li> */}
-
             </div>
           </ul>
         </div>

@@ -55,8 +55,8 @@ function OneTrip() {
   return (
     <div>
       <h2 className="my-3">{trip.name}</h2>
-      <div className="d-flex justify-content-between">
-        <div className="">
+      <div className="d-flex w-100">
+        <div className="col-4">
           <ExpenseForm
             tripId={trip._id}
             expenses={trip.expensesPaid}
@@ -64,11 +64,11 @@ function OneTrip() {
             title="Trip Feed:"
           />
         </div>
-        <div className="w-50">
+        <div className="col-8 p-3 d-flex flex-column align-items-center">
           <h3 className="my-3">Trip Expense Status by User</h3>
           <BarChart chartData={chartData} tripData={trip} />
           <Link
-            className="btn btn-primary"
+            className="btn btn-dark final m-5"
             to="/finaltripsplit"
             state={{ expenses: trip.expensesPaid, users: trip.users }}
           >

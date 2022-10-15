@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 
-function TripCard({userTrips}) {
-
+function TripCard({ userTrips }) {
   return (
-    <div>
+    <div className="m-3 d-flex">
       {" "}
       {userTrips &&
         userTrips.map((trip) => (
@@ -12,7 +11,7 @@ function TripCard({userTrips}) {
             <div className="card-body">
               <h4 className="card-title">{trip.name}</h4>
               <Link
-                className="btn btn-primary"
+                className="btn btn-dark"
                 to={"/onetrip"}
                 state={{ tripId: trip._id }}
               >
