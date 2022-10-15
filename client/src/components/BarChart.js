@@ -7,7 +7,7 @@ function BarChart({ chartData, tripData }) {
   const totalArr = createTotalArray(tripData.users, tripData.expensesPaid);
 
   for (const data of totalArr) {
-    labels.push(data.user);
+    labels.push(data.firstName);
     dataArr.push(data.paid);
   }
 
