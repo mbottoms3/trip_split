@@ -168,13 +168,13 @@ function AddJoinForms() {
           ></input>
           <button
             type="submit"
-            className="btn btn-primary mb-2"
+            className="btn btn-primary mt-3 mb-2 "
             onClick={handleSearchName}
           >
             Submit
           </button>
         </div>
-        <div className="mb-3">
+        <div className="pt-4 my-3">
           <label htmlFor="inputPassword3" className="form-label">
             Trip Password:
           </label>
