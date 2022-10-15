@@ -3,6 +3,7 @@ import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { ADD_TRIP, UPDATE_TRIP, UPDATE_USER } from "../utils/mutations";
 // import { QUERY_USER } from "../utils/queries";
 import { QUERY_TRIP } from "../utils/queries";
+import Auth from "../utils/auth";
 
 function AddJoinForms() {
   const [newName, setNewName] = useState("");
@@ -21,9 +22,9 @@ function AddJoinForms() {
 
   // const { loading1, data1 } = useQuery(QUERY_USER);
 
-  if (error1 || error || error2 || error3) {
-    console.log(JSON.stringify(error, error1, error2, error3));
-  }
+  // if (error1 || error || error2 || error3) {
+  //   console.log(JSON.stringify(error, error1, error2, error3));
+  // }
 
   //takes three tries for this to work
   const handleSearchName = async () => {
@@ -38,6 +39,7 @@ function AddJoinForms() {
       console.error(error);
     }
   };
+
   //adds a trip to the database with name and trip password
   //we need to also add this user to the trip users array - not sure how
   const handleAddSubmit = async (e) => {
@@ -46,7 +48,7 @@ function AddJoinForms() {
       ? console.log("Passwords match")
       : setFeedback1("Passwords do not match");
     try {
-      const { data } = await addTrip({
+      const { data } = addTrip({
         variables: { name: newName, password: newPassword },
       });
       setNewName("");
@@ -58,22 +60,41 @@ function AddJoinForms() {
     }
   };
 
+  // !!!! NEED TO QUERY FOR TRIP BASED ON NAME AND PASSWORD, CONFIRM IT EXISTS, ADDUSERTOTRIP & ADDTRIPTOUSER BASED ON TRIP ID & JWT USER ID
+
   //adds a new user to a trip (update a trip method)
   const handleJoinSubmit = async (e) => {
     e.preventDefault();
+
+    //finding existing trip
+    await getTripId({
+      variables: { name: existingName, password: existingPassword },
+    });
+    console.log(data.findTripByName._id); //returns trip id if exists
+
+    //confirming the trip exists --> throw error message if no trip exists
+    // if (data) {
     try {
-      // to get userId, need JWT first
-      const { data } = await addUserToTrip({
-        variables: { userId: "6348635d2001e622d695780a", tripId: tripId },
+      //returns decoded token --> {data: {email: ..., _id: ...}}
+      const decodedToken = Auth.getProfile();
+
+      await addUserToTrip({
+        variables: {
+          userId: decodedToken.data._id,
+          tripId: data.findTripByName._id,
+        },
       });
-      const { data2 } = await addTripToUser({
-        variables: { tripId: tripId, userId: "6348635d2001e622d695780a" },
-      });
+      // await addTripToUser({
+      //   variables: { tripId: tripId, userId: "6348635d2001e622d695780a" },
+      // });
       setExistingName("");
       setExistingPassword("");
     } catch (error) {
       console.log(JSON.stringify(error));
     }
+    // } else {
+    //   alert("Trip does not exist. Please try again.");
+    // }
   };
 
   const handleAddInputChange = (e) => {
@@ -155,7 +176,7 @@ function AddJoinForms() {
         <h3>Join an Existing Trip</h3>
         <div className="mb-3">
           <label htmlFor="cost" className="form-label">
-            Search for Trip:
+            Trip Name:
           </label>
           <input
             value={existingName}
@@ -166,13 +187,13 @@ function AddJoinForms() {
             onChange={handleJoinInputChange}
             // onMouseOut={handleMouseOut}
           ></input>
-          <button
+          {/* <button
             type="submit"
             className="btn btn-primary mb-2"
             onClick={handleSearchName}
           >
             Submit
-          </button>
+          </button> */}
         </div>
         <div className="mb-3">
           <label htmlFor="inputPassword3" className="form-label">
