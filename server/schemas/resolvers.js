@@ -18,8 +18,16 @@ const resolvers = {
       return Trip.findOne({ _id: tripId }).populate("users");
     },
     //find Trip by name
-    findTripByName: async (parent, { name }) => {
-      return Trip.findOne({ name: name }).populate("users");
+    findTripByName: async (parent, { name, password }) => {
+      const trip = await Trip.findOne({ name: name }).populate("users");
+      const correctPw = await trip.isCorrectPassword(password);
+
+      if (!correctPw || !trip) {
+        console.log("didn't work");
+        throw new AuthenticationError("Trip does not exist.");
+      } else {
+        return trip;
+      }
     },
     // find all trips
     trips: async (parent, args) => {
