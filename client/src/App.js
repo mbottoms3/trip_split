@@ -45,8 +45,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="container">
-          {/* <Header /> */}
+        <div className="container w-100" id="main">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -62,20 +61,8 @@ function App() {
           {/* <Footer /> */}
         </div>
       </Router>{" "}
-      {Auth.loggedIn() ? <h1>Logged in</h1> : <h1>Not logged in</h1>}
-      <div className="container">
-        {/* <Header /> */}
-        {/* // <Navbar />
-        // <ExpenseForm />
-        // <AddJoinForms />
-        // <Feed />
-        // <Footer />
-        //{" "} */}
-      </div>
     </ApolloProvider>
   );
 }
 
 export default App;
-
-// My trips, one trip, login, sign up, final trip split, add/join page

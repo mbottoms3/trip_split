@@ -103,69 +103,73 @@ function ExpenseForm({ tripId, expenses, title, users }) {
   }
 
   return (
-    <div className="w-100">
-      <h3 className="my-3">Add a New Expense</h3>
-      <div className="mb-3">
-        <label htmlFor="cost" className="form-label">
-          Cost:
-        </label>
-        <input
-          value={cost}
-          className="form-control m-10"
-          type="text"
-          placeholder="150.00"
-          name="cost"
-          onChange={handleInputChange}
-        ></input>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="description" className="form-label">
-          Description:
-        </label>
-        <input
-          value={description}
-          className="form-control"
-          type="text"
-          placeholder="Rental Car"
-          name="description"
-          onChange={handleInputChange}
-        ></input>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="username" className="form-label">
-          Purchaser's Username:
-        </label>
-        <input
-          value={purchaser}
-          type="email"
-          className="form-control"
-          placeholder="name@example.com"
-          name="purchaser"
-          onChange={handleInputChange}
-        ></input>
-      </div>
-      <div className="col-auto d-flex justify-content-center">
-        <button
-          type="submit"
-          className="btn btn-primary mb-2"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
+    <div className="w-100 one-trip">
+      <div className="form p-3">
+        <h3 className="my-3">Add a New Expense</h3>
+        <div className="mb-3">
+          <label htmlFor="cost" className="form-label">
+            Cost:
+          </label>
+          <input
+            value={cost}
+            className="form-control m-10"
+            type="text"
+            placeholder="150.00"
+            name="cost"
+            onChange={handleInputChange}
+          ></input>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="description" className="form-label">
+            Description:
+          </label>
+          <input
+            value={description}
+            className="form-control"
+            type="text"
+            placeholder="Rental Car"
+            name="description"
+            onChange={handleInputChange}
+          ></input>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label">
+            Purchaser's Username:
+          </label>
+          <input
+            value={purchaser}
+            type="email"
+            className="form-control"
+            placeholder="name@example.com"
+            name="purchaser"
+            onChange={handleInputChange}
+          ></input>
+        </div>
+        <div className="col-auto d-flex justify-content-center">
+          <button
+            type="submit"
+            className="btn btn-dark mb-2"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
         {/* feed starts here */}
       </div>
-      <ul className="list-group"></ul>
-      <div>
-        <h3 className="my-3">{title}</h3>
-        {expenseArray &&
-          expenseArray.map((expense) => (
-            <div>
-              <li key={Math.random()} className="list-group-item">
-                {expense.name} {expense.lastName} purchased{" "}
-                {expense.itemDescription} for ${expense.amount}
-              </li>
-            </div>
-          ))}
+      <div className="p-3 feed">
+        <ul className="list-group"></ul>
+        <div>
+          <h3 className="my-3">{title}</h3>
+          {expenseArray &&
+            expenseArray.map((expense) => (
+              <div>
+                <li key={Math.random()} className="list-group-item m-2 p-2">
+                  {expense.name} {expense.lastName} purchased{" "}
+                  {expense.itemDescription} for ${expense.amount}
+                </li>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

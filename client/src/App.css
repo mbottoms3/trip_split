@@ -1,3 +1,34 @@
+:root {
+  --dark: #3e2f34;
+  --green: #45cbb2;
+}
+
+* {
+  /* font-family: "Assistant", sans-serif;
+  font-family: "Inter", sans-serif; */
+  font-family: "Quicksand", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
+  /* font-family: "Roboto Condensed", sans-serif; */
+}
+#main {
+  background-color: var(--green);
+  height: 100vh;
+}
+
+.btn {
+  background-color: var(--green);
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  background-color: var(--dark);
+  color: var(--green);
+}
+
+.navbar {
+  background-color: white;
+}
 .App {
   text-align: center;
 }
@@ -13,21 +44,47 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#navbar {
+  background-color: var(--dark);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
+.one-trip {
+  color: white;
+}
+.form {
+  background-color: var(--dark);
+  border-radius: 5px;
+}
+.feed {
+  color: var(--dark);
+}
+.feed li {
+  background-color: white;
+  border-radius: 5px;
+}
+.card {
+  background-color: var(--dark);
+  color: white;
+}
+.bar-chart {
+  background-color: white;
+  border-radius: 5px;
+}
 .App-link {
   color: #61dafb;
 }
 
+.final {
+  background-color: var(--dark);
+  color: var(--green);
+}
+
+.final:hover {
+  background-color: white;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

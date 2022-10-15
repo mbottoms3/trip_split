@@ -17,13 +17,13 @@ function BarChart({ chartData, tripData }) {
       {
         label: "Trip Expense Status by User",
         data: dataArr,
-        backgroundColor: ["#ffbb11"],
+        backgroundColor: ["#3e2f34"],
         borderWidth: 1,
       },
     ],
   };
   return (
-    <div>
+    <div className="bar-chart p-3">
       <Bar
         data={graphData}
         options={{
@@ -34,7 +34,7 @@ function BarChart({ chartData, tripData }) {
             },
 
             legend: {
-              display: true,
+              display: false,
               position: "bottom",
             },
           },

@@ -61,7 +61,7 @@ function LoginForm() {
       <div className="col-auto d-flex justify-content-end">
         <button
           type="submit"
-          className="btn btn-primary mb-2"
+          className="btn btn-dark mb-2"
           onClick={handleSubmit}
         >
           Submit
