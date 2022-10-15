@@ -17,7 +17,7 @@ function AddJoinForms() {
 
   const [addTrip, { error }] = useMutation(ADD_TRIP);
   const [addUserToTrip, { error1 }] = useMutation(UPDATE_TRIP);
-  const [getTripId, { loading, error2, data }] = useLazyQuery(QUERY_TRIP);
+  const [getTripId, { data }] = useLazyQuery(QUERY_TRIP);
   const [addTripToUser, { error3 }] = useMutation(UPDATE_USER);
 
   // const { loading1, data1 } = useQuery(QUERY_USER);
@@ -27,18 +27,18 @@ function AddJoinForms() {
   // }
 
   //takes three tries for this to work
-  const handleSearchName = async () => {
-    try {
-      await getTripId({ variables: { name: existingName } });
-      setTripId(data.findTripByName._id);
-      console.log(tripId);
-      if (!data) {
-        console.log("Could not find your trip. Please try again.");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleSearchName = async () => {
+  //   try {
+  //     await getTripId({ variables: { name: existingName } });
+  //     setTripId(data.findTripByName._id);
+  //     console.log(tripId);
+  //     if (!data) {
+  //       console.log("Could not find your trip. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   //adds a trip to the database with name and trip password
   //we need to also add this user to the trip users array - not sure how
@@ -67,34 +67,42 @@ function AddJoinForms() {
     e.preventDefault();
 
     //finding existing trip
-    await getTripId({
+    let results = await getTripId({
       variables: { name: existingName, password: existingPassword },
     });
-    console.log(data.findTripByName._id); //returns trip id if exists
 
-    //confirming the trip exists --> throw error message if no trip exists
-    // if (data) {
+    if (!results.data) {
+      alert("Trip does not exist or incorrect password. Please try again.");
+      return;
+    }
+
     try {
       //returns decoded token --> {data: {email: ..., _id: ...}}
       const decodedToken = Auth.getProfile();
 
-      await addUserToTrip({
+      const addUser = await addUserToTrip({
         variables: {
           userId: decodedToken.data._id,
-          tripId: data.findTripByName._id,
+          tripId: results.data.findTripByName._id,
         },
       });
-      // await addTripToUser({
-      //   variables: { tripId: tripId, userId: "6348635d2001e622d695780a" },
-      // });
+      const addTrip = await addTripToUser({
+        variables: {
+          tripId: results.data.findTripByName._id,
+          userId: decodedToken.data._id,
+        },
+      });
+
+      //alerting user if they joined the group
+      if (addUser && addTrip) {
+        alert(`You have joined ${existingName}`);
+      }
+
       setExistingName("");
       setExistingPassword("");
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-    // } else {
-    //   alert("Trip does not exist. Please try again.");
-    // }
   };
 
   const handleAddInputChange = (e) => {
@@ -191,7 +199,7 @@ function AddJoinForms() {
             type="submit"
             className="btn btn-primary mb-2"
             onClick={handleSearchName}
-          >
+            >
             Submit
           </button> */}
         </div>
