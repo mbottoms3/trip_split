@@ -11,34 +11,21 @@ function AddJoinForms() {
   const [existingName, setExistingName] = useState("");
   const [existingPassword, setExistingPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [tripId, setTripId] = useState("");
+
+  //adding trip - passwords
   const [feedback1, setFeedback1] = useState("");
-  const [feedback2, setFeedback2] = useState("");
+  // const [feedback2, setFeedback2] = useState("");
 
   const [addTrip, { error }] = useMutation(ADD_TRIP);
   const [addUserToTrip, { error1 }] = useMutation(UPDATE_TRIP);
-  const [getTripId, { data }] = useLazyQuery(QUERY_TRIP);
-  const [addTripToUser, { error3 }] = useMutation(UPDATE_USER);
+  const [getTripId] = useLazyQuery(QUERY_TRIP);
+  const [addTripToUser, { error2 }] = useMutation(UPDATE_USER);
 
   // const { loading1, data1 } = useQuery(QUERY_USER);
 
-  // if (error1 || error || error2 || error3) {
-  //   console.log(JSON.stringify(error, error1, error2, error3));
-  // }
-
-  //takes three tries for this to work
-  // const handleSearchName = async () => {
-  //   try {
-  //     await getTripId({ variables: { name: existingName } });
-  //     setTripId(data.findTripByName._id);
-  //     console.log(tripId);
-  //     if (!data) {
-  //       console.log("Could not find your trip. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  if (error1 || error || error2) {
+    console.log(JSON.stringify(error, error1, error2));
+  }
 
   //adds a trip to the database with name and trip password
   //we need to also add this user to the trip users array - not sure how
@@ -60,9 +47,7 @@ function AddJoinForms() {
     }
   };
 
-  // !!!! NEED TO QUERY FOR TRIP BASED ON NAME AND PASSWORD, CONFIRM IT EXISTS, ADDUSERTOTRIP & ADDTRIPTOUSER BASED ON TRIP ID & JWT USER ID
-
-  //adds a new user to a trip (update a trip method)
+  //JOIN GROUP - SUBMIT
   const handleJoinSubmit = async (e) => {
     e.preventDefault();
 
@@ -195,13 +180,6 @@ function AddJoinForms() {
             onChange={handleJoinInputChange}
             // onMouseOut={handleMouseOut}
           ></input>
-          {/* <button
-            type="submit"
-            className="btn btn-primary mb-2"
-            onClick={handleSearchName}
-            >
-            Submit
-          </button> */}
         </div>
         <div className="mb-3">
           <label htmlFor="inputPassword3" className="form-label">
