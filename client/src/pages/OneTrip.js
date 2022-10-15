@@ -32,6 +32,7 @@ function OneTrip() {
   });
 
   const trip = data?.trip || {};
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -56,7 +57,12 @@ function OneTrip() {
       <h2 className="my-3">{trip.name}</h2>
       <div className="d-flex justify-content-between">
         <div className="">
-          <ExpenseForm tripId={trip._id} />
+          <ExpenseForm
+            tripId={trip._id}
+            expenses={trip.expensesPaid}
+            users={trip.users}
+            title="Trip Feed:"
+          />
         </div>
         <div className="w-50">
           <h3 className="my-3">Trip Expense Status by User</h3>
@@ -64,13 +70,13 @@ function OneTrip() {
           <Link
             className="btn btn-primary"
             to="/finaltripsplit"
-            state={{ expenses: trip.expensesPaid }}
+            state={{ expenses: trip.expensesPaid, users: trip.users }}
           >
             Final Trip $plit
           </Link>
         </div>
       </div>
-      <Feed expenses={trip.expensesPaid} title="Trip Feed:" />
+      {/* <Feed  /> */}
     </div>
   );
 }
