@@ -56,27 +56,26 @@ function OneTrip() {
     <div>
       <h2 className="m-3">{trip.name}</h2>
       <div className="d-flex w-100">
-        <div className="col-4 m-3">
+        <div className="m-3 w-100">
           <ExpenseForm
             tripId={trip._id}
             expenses={trip.expensesPaid}
             users={trip.users}
             title="Trip Feed:"
+            chartData={chartData}
+            tripData={trip}
           />
         </div>
-        <div className="col-8 p-3 d-flex flex-column align-items-center">
-          <h3 className="my-3">Trip Expense Status by User</h3>
-          <BarChart chartData={chartData} tripData={trip} />
-          <Link
-            className="btn btn-dark final m-5"
-            to="/finaltripsplit"
-            state={{ expenses: trip.expensesPaid, users: trip.users }}
-          >
-            Final Trip $plit
-          </Link>
-        </div>
+
+        {/* <BarChart chartData={chartData} tripData={trip} /> */}
+        {/* <Link
+          className="btn btn-dark final m-5"
+          to="/finaltripsplit"
+          state={{ expenses: trip.expensesPaid, users: trip.users }}
+        >
+          Final Trip $plit
+        </Link> */}
       </div>
-      {/* <Feed  /> */}
     </div>
   );
 }
