@@ -3,6 +3,7 @@ import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { ADD_TRIP, UPDATE_TRIP, UPDATE_USER } from "../utils/mutations";
 // import { QUERY_USER } from "../utils/queries";
 import { QUERY_TRIP } from "../utils/queries";
+import Auth from "../utils/auth";
 
 function AddJoinForms() {
   const [newName, setNewName] = useState("");
@@ -10,34 +11,22 @@ function AddJoinForms() {
   const [existingName, setExistingName] = useState("");
   const [existingPassword, setExistingPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [tripId, setTripId] = useState("");
+
+  //adding trip - passwords
   const [feedback1, setFeedback1] = useState("");
-  const [feedback2, setFeedback2] = useState("");
+  // const [feedback2, setFeedback2] = useState("");
 
   const [addTrip, { error }] = useMutation(ADD_TRIP);
   const [addUserToTrip, { error1 }] = useMutation(UPDATE_TRIP);
-  const [getTripId, { loading, error2, data }] = useLazyQuery(QUERY_TRIP);
-  const [addTripToUser, { error3 }] = useMutation(UPDATE_USER);
+  const [getTripId] = useLazyQuery(QUERY_TRIP);
+  const [addTripToUser, { error2 }] = useMutation(UPDATE_USER);
 
   // const { loading1, data1 } = useQuery(QUERY_USER);
 
-  if (error1 || error || error2 || error3) {
-    console.log(JSON.stringify(error, error1, error2, error3));
+  if (error1 || error || error2) {
+    console.log(JSON.stringify(error, error1, error2));
   }
 
-  //takes three tries for this to work
-  const handleSearchName = async () => {
-    try {
-      await getTripId({ variables: { name: existingName } });
-      setTripId(data.findTripByName._id);
-      console.log(tripId);
-      if (!data) {
-        console.log("Could not find your trip. Please try again.");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   //adds a trip to the database with name and trip password
   //we need to also add this user to the trip users array - not sure how
   const handleAddSubmit = async (e) => {
@@ -46,7 +35,7 @@ function AddJoinForms() {
       ? console.log("Passwords match")
       : setFeedback1("Passwords do not match");
     try {
-      const { data } = await addTrip({
+      const { data } = addTrip({
         variables: { name: newName, password: newPassword },
       });
       setNewName("");
@@ -58,17 +47,42 @@ function AddJoinForms() {
     }
   };
 
-  //adds a new user to a trip (update a trip method)
+  //JOIN GROUP - SUBMIT
   const handleJoinSubmit = async (e) => {
     e.preventDefault();
+
+    //finding existing trip
+    let results = await getTripId({
+      variables: { name: existingName, password: existingPassword },
+    });
+
+    if (!results.data) {
+      alert("Trip does not exist or incorrect password. Please try again.");
+      return;
+    }
+
     try {
-      // to get userId, need JWT first
-      const { data } = await addUserToTrip({
-        variables: { userId: "6348635d2001e622d695780a", tripId: tripId },
+      //returns decoded token --> {data: {email: ..., _id: ...}}
+      const decodedToken = Auth.getProfile();
+
+      const addUser = await addUserToTrip({
+        variables: {
+          userId: decodedToken.data._id,
+          tripId: results.data.findTripByName._id,
+        },
       });
-      const { data2 } = await addTripToUser({
-        variables: { tripId: tripId, userId: "6348635d2001e622d695780a" },
+      const addTrip = await addTripToUser({
+        variables: {
+          tripId: results.data.findTripByName._id,
+          userId: decodedToken.data._id,
+        },
       });
+
+      //alerting user if they joined the group
+      if (addUser && addTrip) {
+        alert(`You have joined ${existingName}`);
+      }
+
       setExistingName("");
       setExistingPassword("");
     } catch (error) {
@@ -155,7 +169,7 @@ function AddJoinForms() {
         <h3>Join an Existing Trip</h3>
         <div className="mb-3">
           <label htmlFor="cost" className="form-label">
-            Search for Trip:
+            Trip Name:
           </label>
           <input
             value={existingName}
@@ -166,13 +180,6 @@ function AddJoinForms() {
             onChange={handleJoinInputChange}
             // onMouseOut={handleMouseOut}
           ></input>
-          <button
-            type="submit"
-            className="btn btn-primary mt-3 mb-2 "
-            onClick={handleSearchName}
-          >
-            Submit
-          </button>
         </div>
         <div className="pt-4 my-3">
           <label htmlFor="inputPassword3" className="form-label">
