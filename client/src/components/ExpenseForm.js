@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { ADD_EXPENSE } from "../utils/mutations";
-import { QUERY_SINGLE_TRIP } from "../utils/queries";
 
 function ExpenseForm({ tripId, expenses, title, users }) {
   function reverseArr(input) {
@@ -11,13 +10,29 @@ function ExpenseForm({ tripId, expenses, title, users }) {
     }
     return ret;
   }
-  const newArray = reverseArr(expenses);
-  console.log(newArray);
+
+  let newArray = reverseArr(expenses);
 
   const [cost, setCost] = useState();
   const [description, setDescription] = useState("");
   const [purchaser, setPurchaser] = useState("");
   const [expenseArray, setExpenseArray] = useState(newArray);
+
+  useEffect(() => {
+    let expensesWithNames = [];
+    for (let expense of newArray) {
+      const user = users.find((e) => e.email === expense.email);
+      expensesWithNames.push({
+        name: `${user.firstName} ${user.lastName}`,
+        email: expense.email,
+        amount: expense.amount,
+        itemDescription: expense.itemDescription,
+      });
+    }
+    setExpenseArray(expensesWithNames);
+  }, []);
+
+  console.log(newArray);
 
   console.log(expenseArray);
   // const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
@@ -39,6 +54,7 @@ function ExpenseForm({ tripId, expenses, title, users }) {
       {
         __typename: "expensePaid",
         name: inputName.firstName,
+        lastName: inputName.lastName,
         email: purchaser,
         itemDescription: description,
         amount: costNum,
@@ -145,8 +161,8 @@ function ExpenseForm({ tripId, expenses, title, users }) {
           expenseArray.map((expense) => (
             <div>
               <li key={Math.random()} className="list-group-item">
-                {expense.name} purchased {expense.itemDescription} for $
-                {expense.amount}
+                {expense.name} {expense.lastName} purchased{" "}
+                {expense.itemDescription} for ${expense.amount}
               </li>
             </div>
           ))}
