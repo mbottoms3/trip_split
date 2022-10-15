@@ -52,7 +52,7 @@ export function createTotalArray(users, expenses) {
   const finalArray = [];
   for (let i = 0; i < users.length; i++) {
     const user = users[i].email;
-    console.log(user);
+    // console.log(user);
     let paid = expenses.reduce((total, object) => {
       if (object.email === user) {
         total += object.amount;
@@ -215,4 +215,4 @@ export function split(array) {
 
 // console.log(split(createTotalArray(users, expenses)));
 
-// export { createTotalArray, split };
+export { createTotalArray };
