@@ -54,7 +54,7 @@ export function createTotalArray(users, expenses) {
 
     const firstName = users[i].firstName;
     const lastName = users[i].lastName;
-    console.log(firstName);
+
     // console.log(user);
     let paid = expenses.reduce((total, object) => {
       if (object.email === user) {
@@ -140,7 +140,7 @@ export function split(array) {
 
   return paymentOrganization();
 }
-// console.log(createTotalArray(users, expenses));
+
 // console.log(split(array));
 // function split(array) {
 //   //adds up all amounts paid and divides by the number of users on the trip
