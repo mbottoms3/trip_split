@@ -14,7 +14,14 @@ function MyTrips() {
   const user = data?.user.trips || [];
 
   return (
-    <div>{loading ? <div>Loading...</div> : <TripCard userTrips={user} />}</div>
+    <div>
+      <h3 className="mx-3 my-4">My Trips:</h3>
+      {loading ? (
+        <div className="m-3">Loading...</div>
+      ) : (
+        <TripCard userTrips={user} />
+      )}
+    </div>
   );
 }
 

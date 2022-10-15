@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
+
 import "./NavBar.css";
 
 function Navbar() {
@@ -11,8 +12,14 @@ function Navbar() {
   // console.log(Auth.loggedIn);
   return (
     <div id="navbar" className="w-100">
-      <h1 className="p-3 text-center">Welcome to Trip $plit</h1>
-      <nav className="navbar navbar-expand-lg  navbar-light bg-light">
+      <div className="d-flex align-items-center justify-content-between">
+        <h1 className="p-3 text-center">Trip $plit</h1>
+        <img
+          className="navbar-brand mx-4"
+          src={require("../assets/logo.png")}
+        ></img>
+      </div>
+      <nav className="navbar navbar-expand-lg">
         <button
           className="navbar-toggler"
           type="button"

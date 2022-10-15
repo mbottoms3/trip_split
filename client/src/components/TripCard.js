@@ -6,7 +6,7 @@ function TripCard({ userTrips }) {
       {" "}
       {userTrips &&
         userTrips.map((trip) => (
-          <div key={trip._id} className="card">
+          <div key={trip._id} className="card mx-3">
             {/* <img class="card-img-top" src="img_avatar1.png" alt="Card image"> */}
             <div className="card-body">
               <h4 className="card-title">{trip.name}</h4>
