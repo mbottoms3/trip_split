@@ -5,7 +5,7 @@ function FinalSplit(props) {
   //this is
 
   //total paid is working, split is return undefined for some reason?
-  const output = split(totalPaid);
+  // const output = split(totalPaid);
 
   return (
     // need to run the algorithm

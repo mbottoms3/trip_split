@@ -33,8 +33,8 @@ function OneTrip() {
 
   const trip = data?.trip || {};
 
-  console.log(trip.users);
-  
+  // console.log(trip.users);
+
   if (loading) {
     return <div>Loading...</div>;
   }
