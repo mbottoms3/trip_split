@@ -30,8 +30,8 @@ export const QUERY_SINGLE_TRIP = gql`
 `;
 //query a trip by name instead of id
 export const QUERY_TRIP = gql`
-  query findTripByName($name: String!) {
-    findTripByName(name: $name) {
+  query findTripByName($name: String!, $password: String) {
+    findTripByName(name: $name, password: $password) {
       _id
     }
   }

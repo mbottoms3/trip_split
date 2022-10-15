@@ -39,14 +39,14 @@ const typeDefs = gql`
     users: [User]
     user(email: String!): User
     trip(tripId: ID!): Trip
-    findTripByName(name: String!): Trip
+    findTripByName(name: String!, password: String): Trip
     trips: [Trip]
     #GET all expenses
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    
+
     addUser(
       email: String!
       password: String!
