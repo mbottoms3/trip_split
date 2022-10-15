@@ -39,6 +39,7 @@ function Navbar() {
               </li>
             </div>
             <div className="d-flex">
+
               {Auth.loggedIn() ? (
                 <li className="nav-item">
                   <a className="nav-link btn btn-info" onClick={logout}>
@@ -63,6 +64,7 @@ function Navbar() {
             <li className="nav-item">
               
             </li> */}
+
             </div>
           </ul>
         </div>
