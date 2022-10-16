@@ -11,7 +11,8 @@ function AddJoinForms() {
   const [existingName, setExistingName] = useState("");
   const [existingPassword, setExistingPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [joinFeedback, setJoinFeedback] = useState("");
+  const [addFeedback, setAddFeedback] = useState("");
 
   //adding trip - passwords
   const [feedback1, setFeedback1] = useState("");
@@ -59,7 +60,7 @@ function AddJoinForms() {
 
     if (!results.data) {
       // alert("Trip does not exist or incorrect password. Please try again.");
-      setFeedback(
+      setJoinFeedback(
         "Trip does not exist or incorrect password, please try again"
       );
       return;
@@ -85,7 +86,7 @@ function AddJoinForms() {
       //alerting user if they joined the group
       if (addUser && addTrip) {
         // alert(`You have joined ${existingName}`);
-        setFeedback("You have joined your trip!");
+        setJoinFeedback("You have joined your trip!");
       }
 
       setExistingName("");
@@ -169,6 +170,9 @@ function AddJoinForms() {
             Submit
           </button>
         </div>
+        <div className="col-auto d-flex justify-content-center">
+          <p className="py-3">{feedback1}</p>
+        </div>
       </div>
       <div className="w-50 m-3">
         <h3>Join an Existing Trip</h3>
@@ -210,7 +214,7 @@ function AddJoinForms() {
           </button>
         </div>
         <div className="col-auto d-flex justify-content-center">
-          <p className="py-3">{feedback}</p>
+          <p className="py-3">{joinFeedback}</p>
         </div>
       </div>
     </div>
