@@ -80,7 +80,7 @@ export function split(array) {
       output.push({
         owedFrom: `${negativePaidDescend[0].firstName} ${negativePaidDescend[0].lastName}`,
         owedTo: `${positivePaidDescend[0].firstName} ${positivePaidDescend[0].lastName}`,
-        amount: `$${firstPosUser}`,
+        amount: `$${firstPosUser.toFixed(2)}`,
       });
       //replacing what neg person owes with their remainder
       negAbsoluteOwed = negativeRemainder;
@@ -103,7 +103,7 @@ export function split(array) {
       output.push({
         owedFrom: `${negativePaidDescend[0].firstName} ${negativePaidDescend[0].lastName}`,
         owedTo: `${positivePaidDescend[0].firstName} ${positivePaidDescend[0].lastName}`,
-        amount: `$${negAbsoluteOwed}`,
+        amount: `$${negAbsoluteOwed.toFixed(2)}`,
       });
 
       //replacing what the pos user is owed with the remainder
