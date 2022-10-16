@@ -49,6 +49,10 @@ export function split(array) {
     return currentValue.paid > 0;
   });
 
+  // const owesNone = array.filter(function(currentValue) {
+  //   currentValue
+  // })
+
   //owed most - least
   let positivePaidDescend = positivePaid.sort(
     (a, b) => parseFloat(b.paid) - parseFloat(a.paid)
@@ -121,6 +125,19 @@ export function split(array) {
         //turning the absolute value into a number
         negAbsoluteOwed = parseFloat(negOwed);
       }
+    }
+
+    if (firstPosUser === negAbsoluteOwed) {
+    
+      output.push({
+        owedFrom: `${negativePaidDescend[0].firstName} ${negativePaidDescend[0].lastName}`,
+        owedTo: `${positivePaidDescend[0].firstName} ${positivePaidDescend[0].lastName}`,
+        amount: `$${negAbsoluteOwed.toFixed(2)}`,
+      });
+      
+      //removing neg user once they reach zero
+      negativePaidDescend.shift();
+      positivePaidDescend.shift();
     }
   }
   return output;
