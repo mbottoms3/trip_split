@@ -12,6 +12,7 @@ function AddJoinForms() {
   const [existingName, setExistingName] = useState("");
   const [existingPassword, setExistingPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [feedback, setFeedback] = useState("");
 
   //adding trip - passwords
   const [feedback1, setFeedback1] = useState("");
@@ -85,7 +86,10 @@ function AddJoinForms() {
     });
 
     if (!results.data) {
-      alert("Trip does not exist or incorrect password. Please try again.");
+      // alert("Trip does not exist or incorrect password. Please try again.");
+      setFeedback(
+        "Trip does not exist or incorrect password, please try again"
+      );
       return;
     }
 
@@ -108,6 +112,8 @@ function AddJoinForms() {
 
       if (addUser && addTrip) {
         window.location.assign("/mytrips");
+        // alert(`You have joined ${existingName}`);
+        setFeedback("You have joined your trip!");
       }
 
       setExistingName("");
@@ -230,6 +236,9 @@ function AddJoinForms() {
           >
             Submit
           </button>
+        </div>
+        <div className="col-auto d-flex justify-content-center">
+          <p className="py-3">{feedback}</p>
         </div>
       </div>
     </div>
