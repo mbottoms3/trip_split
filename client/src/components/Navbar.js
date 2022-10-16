@@ -10,6 +10,10 @@ function Navbar() {
     Auth.logout();
   };
   // console.log(Auth.loggedIn);
+
+  function relocate() {
+    window.location.assign("/mytrips");
+  }
   return (
     <div id="navbar" className="w-100">
       <div className="d-flex align-items-center justify-content-between">
@@ -35,9 +39,11 @@ function Navbar() {
           <ul className="navbar-nav d-flex justify-content-between w-100">
             <div className="d-flex">
               {Auth.loggedIn() ? (
-                <Link className="btn btn-dark m-2" to={"/mytrips"}>
-                  My Trips
-                </Link>
+                <div onClick={relocate}>
+                  <Link className="btn btn-dark m-2" to={"/mytrips"}>
+                    My Trips
+                  </Link>
+                </div>
               ) : (
                 <>
                   {/* <h5 className="text-primary m-2 px-4">
