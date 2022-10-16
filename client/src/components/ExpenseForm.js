@@ -95,6 +95,15 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       },
       ...expenseArray,
     ]);
+
+    //pushing new expense to tripData.expensesPaid array
+    tripData.expensesPaid.push({
+      __typename: "expensePaid",
+      email: purchaser,
+      itemDescription: description,
+      amount: costNum,
+    });
+
     console.log(labels);
     const object = labels.findIndex((item) => item === inputName.firstName);
     console.log(object);
