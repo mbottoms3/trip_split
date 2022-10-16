@@ -6,51 +6,53 @@
 //That's the number of times we filter through array
 //for loop, each new array is called newArrayi
 
-const users = ["michaela", "nick", "sally"];
-const expenses = [
-  { email: "michaela", itemDescription: "waterbottles", amount: 15 },
-  { email: "nick", itemDescription: "waterbottles", amount: 15 },
-  { email: "nick", itemDescription: "waterbottles", amount: 15 },
-  { email: "sally", itemDescription: "waterbottles", amount: 15 },
-  { email: "michaela", itemDescription: "waterbottles", amount: 15 },
-  { email: "michaela", itemDescription: "waterbottles", amount: 15 },
-];
+// const users = ["michaela", "nick", "sally"];
+// const expenses = [
+//   { email: "michaela", itemDescription: "waterbottles", amount: 15 },
+//   { email: "nick", itemDescription: "waterbottles", amount: 15 },
+//   { email: "nick", itemDescription: "waterbottles", amount: 15 },
+//   { email: "sally", itemDescription: "waterbottles", amount: 15 },
+//   { email: "michaela", itemDescription: "waterbottles", amount: 15 },
+//   { email: "michaela", itemDescription: "waterbottles", amount: 15 },
+// ];
 
-const array = [
-  {
-    user: "stevevee@gmail.com",
-    paid: 50,
-  },
-  {
-    user: "mikelew@gmail.com",
-    paid: 100,
-  },
-  {
-    user: "rudy30@gmail.com",
-    paid: 210,
-  },
-  {
-    user: "micah100@gmail.com",
-    paid: 48,
-  },
-  {
-    user: "gabevee@gmail.com",
-    paid: 77,
-  },
-  {
-    user: "hannaha@gmail.com",
-    paid: 12,
-  },
-  {
-    user: "kingkarl00@gmail.com",
-    paid: 85,
-  },
-];
+// const array = [
+//   {
+//     user: "stevevee@gmail.com",
+//     paid: 50,
+//   },
+//   {
+//     user: "mikelew@gmail.com",
+//     paid: 100,
+//   },
+//   {
+//     user: "rudy30@gmail.com",
+//     paid: 210,
+//   },
+//   {
+//     user: "micah100@gmail.com",
+//     paid: 48,
+//   },
+//   {
+//     user: "gabevee@gmail.com",
+//     paid: 77,
+//   },
+//   {
+//     user: "hannaha@gmail.com",
+//     paid: 12,
+//   },
+//   {
+//     user: "kingkarl00@gmail.com",
+//     paid: 85,
+//   },
+// ];
 
 export function createTotalArray(users, expenses) {
   const finalArray = [];
   for (let i = 0; i < users.length; i++) {
     const user = users[i].email;
+
+    console.log(users);
 
     const firstName = users[i].firstName;
     const lastName = users[i].lastName;
@@ -65,25 +67,28 @@ export function createTotalArray(users, expenses) {
       }
     }, 0);
     const item = { firstName, lastName, paid };
+    console.log(paid);
     finalArray.push(item);
   }
   console.log(finalArray);
+
   return finalArray;
 }
-
+//-------------------------------------
 export function split(array) {
   const output = [];
   //adds up all amounts paid and divides by the number of users on the trip
   const evenSplitAmount =
     array.reduce(function (total, object) {
       total += object.paid;
+
       return total;
     }, 0) / array.length;
 
   //change original array.paid to difference between amount paid and amount each person SHOULD pay if it was even
-  array.map((object) => {
-    object.paid = object.paid - evenSplitAmount;
-  });
+  const evenPay = array.map((object) => {
+    return (object.paid = object.paid - evenSplitAmount);
+  }); //correct look at should owe
 
   const negativePaid = array.filter(function (currentValue) {
     return currentValue.paid <= 0;
@@ -93,28 +98,51 @@ export function split(array) {
     return currentValue.paid > 0;
   });
 
-  //need to sort these arrays
+  //owed most - least
+  const positivePaidDescend = positivePaid.sort(
+    (a, b) => parseFloat(b.paid) - parseFloat(a.paid)
+  );
+
+  
+  //owe most - least 
+  const negativePaidAscend = negativePaid.sort(
+    (a, b) => parseFloat(b.paid) - parseFloat(a.paid)
+  );
+  console.log(positivePaidDescend);
+  console.log(negativePaidAscend);
 
   let p = 0; //positive index
   let n = 0;
   function paymentOrganization() {
     //negative index
     if (n < negativePaid.length && p < positivePaid.length) {
-      if (Math.abs(negativePaid[n].paid) < positivePaid[p].paid) {
+      let positiveRemainder;
+      let negativeRemainder;
+
+      //need to  compare what a negative person owes vs positive
+      //subtract negative person from positive
+      //move to next positive person - any leftover from the neg needs to be paid to the next pos person
+      //do this until all money is distributed
+
+      if (Math.abs(negativePaid[n].paid) < positiveRemainder) {
         const amountToPay = negativePaid[n].paid;
+
         output.push({
           owedFrom: `${negativePaid[n].firstName} ${negativePaid[n].lastName}`,
           owedTo: `${positivePaid[p].firstName} ${positivePaid[p].lastName}`,
           amount: `$${Math.abs(amountToPay).toFixed(2)}`,
         });
-        //add to negative person's paid
-        negativePaid[n].paid += amountToPay;
-        //subtract from positive person's paid
-        positivePaid[p].paid -= amountToPay;
+        // //add to negative person's paid
+        // const neg = (negativePaid[n].paid += amountToPay);
+
+        // // //subtract from positive person's paid
+        // const pos = (positivePaid[p].paid -= amountToPay);
+
         //move negative person index
         n++;
         //run function again with changed arrays
         paymentOrganization();
+
         return output;
       } else {
         const amountToPay = positivePaid[p].paid;
@@ -125,9 +153,11 @@ export function split(array) {
           amount: `$${Math.abs(amountToPay).toFixed(2)}`,
         });
         //add to negative person's paid
-        negativePaid[n].paid += amountToPay;
+        // const neg2 = (negativePaid[n].paid += amountToPay);
+        // console.log(neg2);
         //subtract from positive person's paid
-        positivePaid[p].paid -= amountToPay;
+        // const pos2 = (positivePaid[p].paid -= amountToPay);
+        // console.log(pos2);
         //move positive person index
         p++;
         paymentOrganization();
