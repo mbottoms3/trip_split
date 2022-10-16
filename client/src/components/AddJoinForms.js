@@ -4,6 +4,7 @@ import { ADD_TRIP, UPDATE_TRIP, UPDATE_USER } from "../utils/mutations";
 // import { QUERY_USER } from "../utils/queries";
 import { QUERY_TRIP } from "../utils/queries";
 import Auth from "../utils/auth";
+import { QUERY_ADD_TRIP } from "../utils/queries";
 
 function AddJoinForms() {
   const [newName, setNewName] = useState("");
@@ -35,9 +36,31 @@ function AddJoinForms() {
       ? console.log("Passwords match")
       : setFeedback1("Passwords do not match");
     try {
-      const { data } = addTrip({
+      const { data } = await addTrip({
         variables: { name: newName, password: newPassword },
       });
+
+      //finding new trip
+      let newTrip = await getTripId({
+        variables: { name: newName, password: newPassword },
+      });
+
+      //returns decoded token --> {data: {email: ..., _id: ...}}
+      const decodedToken = Auth.getProfile();
+
+      const user = await addUserToTrip({
+        variables: {
+          userId: decodedToken.data._id,
+          tripId: newTrip.data.findTripByName._id,
+        },
+      });
+      const trip = await addTripToUser({
+        variables: {
+          tripId: newTrip.data.findTripByName._id,
+          userId: decodedToken.data._id,
+        },
+      });
+
       setNewName("");
       setNewPassword("");
       setConfirmPassword("");
