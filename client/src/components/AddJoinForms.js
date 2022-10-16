@@ -64,6 +64,11 @@ function AddJoinForms() {
       setNewName("");
       setNewPassword("");
       setConfirmPassword("");
+
+      if (trip && user) {
+        window.location.assign("/mytrips");
+      }
+
       console.log(data);
     } catch (error) {
       console.error(error);
@@ -101,9 +106,8 @@ function AddJoinForms() {
         },
       });
 
-      //alerting user if they joined the group
       if (addUser && addTrip) {
-        alert(`You have joined ${existingName}`);
+        window.location.assign("/mytrips");
       }
 
       setExistingName("");
