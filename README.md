@@ -24,6 +24,7 @@ This application can be used to evenly divide trips. Once the user is logged in,
 
 ![Deployed Application Screenshot](/trip_split/client/public/images/trip-split.png)
 ![Deployed Application Screenshot](/trip_split/client/public/images/trip.png)
+![Deployed Application Screenshot](/trip_split/client/public/images/split.png)
 
 ## Installation
 
