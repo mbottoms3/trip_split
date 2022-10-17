@@ -15,12 +15,10 @@ export const ADD_EXPENSE = gql`
       email: $email
     ) {
       expensesPaid {
-        email
         amount
       }
       users {
         firstName
-        email
       }
     }
   }

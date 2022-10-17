@@ -27,12 +27,12 @@ export function createTotalArray(users, expenses) {
 }
 
 export function split(array) {
+  console.log(array);
   const output = [];
   //adds up all amounts paid and divides by the number of users on the trip
   const evenSplitAmount =
     array.reduce(function (total, object) {
       total += object.paid;
-
       return total;
     }, 0) / array.length;
 

@@ -1,19 +1,43 @@
 import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { ADD_EXPENSE } from "../utils/mutations";
 import { createTotalArray } from "../utils/helpers.mjs";
 import { Bar } from "react-chartjs-2";
 import { Link } from "react-router-dom";
+import { QUERY_SINGLE_TRIP } from "../utils/queries";
+import { useLocation } from "react-router-dom";
 
 function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
+  //query to get updated expenses
+  const [singleTripExpense] = useLazyQuery(QUERY_SINGLE_TRIP);
+
+  //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
+  const [addExpense, { error }] = useMutation(ADD_EXPENSE);
+
+  //getting current tripId
+  let location = useLocation();
+  let currentTrip = location.state;
+  let currentTripId = currentTrip.tripId;
+
+  const { data } = useQuery(QUERY_SINGLE_TRIP, {
+    variables: { tripId: currentTrip.tripId },
+  });
+  console.log(data);
+
+  //used to pass arrays to FinalSplit
+  let tripExpenses = data.trip.expensesPaid;
+  let tripUsers = data.trip.users;
+
   // barChart stuff
   let labels = [];
   let dataArr = [];
-  const totalArr = createTotalArray(tripData.users, tripData.expensesPaid);
+  let totalArray;
 
-  for (const data of totalArr) {
-    labels.push(data.firstName);
-    dataArr.push(data.paid);
+  totalArray = createTotalArray(data.trip.users, data.trip.expensesPaid);
+
+  for (const userData of totalArray) {
+    labels.push(userData.firstName);
+    dataArr.push(userData.paid);
   }
 
   const initialLoadGraphData = {
@@ -28,16 +52,20 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     ],
   };
 
-  //end barchart
+  // //end barchart
+
   function reverseArr(input) {
+    console.log(input);
     var ret = new Array();
     for (var i = input.length - 1; i >= 0; i--) {
       ret.push(input[i]);
     }
+    console.log(ret);
     return ret;
   }
 
-  let newArray = reverseArr(expenses);
+  let newArray = reverseArr(data.trip.expensesPaid);
+  console.log(newArray);
 
   const [cost, setCost] = useState();
   const [description, setDescription] = useState("");
@@ -45,10 +73,11 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   const [expenseArray, setExpenseArray] = useState(newArray);
   const [graphData, setGraphData] = useState(initialLoadGraphData);
 
+  let expensesWithNames = [];
   useEffect(() => {
-    let expensesWithNames = [];
     for (let expense of newArray) {
       const user = users.find((e) => e.email === expense.email);
+      console.log(user);
       expensesWithNames.push({
         name: `${user.firstName} ${user.lastName}`,
         email: expense.email,
@@ -59,76 +88,73 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     setExpenseArray(expensesWithNames);
   }, []);
 
-  console.log(newArray);
-
-  console.log(expenseArray);
-  // const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
-  //   variables: { tripId: tripId },
-  // });
-  // const trip = data?.trip || {};
-
-  //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
-  const [addExpense, { error }] = useMutation(ADD_EXPENSE);
-
   if (error) {
     console.log(JSON.stringify(error));
   }
 
   const handleSubmit = async (e) => {
-    const totalArr = createTotalArray(tripData.users, tripData.expensesPaid);
-
-    // for (const data of totalArr) {
-    //   dataArr.push(data.firstName);
-    //   dataArr.push(data.paid);
-    // }
-    console.log(dataArr);
-    const inputName = users.find((user) => user.email === purchaser);
-    const costNum = parseInt(cost);
-    setExpenseArray([
-      {
-        __typename: "expensePaid",
-        name: inputName.firstName,
-        lastName: inputName.lastName,
-        email: purchaser,
-        itemDescription: description,
-        amount: costNum,
-      },
-      ...expenseArray,
-    ]);
-
-    //pushing new expense to tripData.expensesPaid array
-    tripData.expensesPaid.push({
-      __typename: "expensePaid",
-      email: purchaser,
-      itemDescription: description,
-      amount: costNum,
-    });
-
-    console.log(labels);
-    const object = labels.findIndex((item) => item === inputName.firstName);
-    console.log(object);
-    dataArr[object] += costNum;
-    setGraphData({
-      labels: labels,
-      datasets: [
-        {
-          label: "Trip Expense Status by User",
-          data: dataArr,
-          backgroundColor: ["#3e2f34"],
-          borderWidth: 1,
-        },
-      ],
-    });
-
     e.preventDefault();
+    // const results = await singleTrip({});
+
     try {
+      //returns {tripId: "ID...."}
+      let currentTrip = location.state;
+
+      //turning cost into number
+      const costNum = parseInt(cost);
+
+      //adding the expense
       const { data } = await addExpense({
         variables: {
-          tripId: tripId,
+          tripId: currentTrip.tripId,
           itemDescription: description,
           amount: costNum,
           email: purchaser,
         },
+      });
+      //query db to find users and expenses
+      let results = await singleTripExpense({
+        variables: { tripId: currentTrip.tripId },
+      });
+      console.log(results);
+
+      totalArray = createTotalArray(
+        results.data.trip.users,
+        results.data.trip.expensesPaid
+      );
+
+      tripExpenses = results.data.trip.expensesPaid;
+      tripUsers = results.data.trip.users;
+
+      console.log(dataArr);
+      const inputName = users.find((user) => user.email === purchaser);
+      setExpenseArray([
+        {
+          __typename: "expensePaid",
+          name: inputName.firstName,
+          lastName: inputName.lastName,
+          email: purchaser,
+          itemDescription: description,
+          amount: costNum,
+        },
+        ...expenseArray,
+      ]);
+
+      console.log(expenseArray);
+
+      const object = labels.findIndex((item) => item === inputName.firstName);
+      console.log(object);
+      dataArr[object] += costNum;
+      setGraphData({
+        labels: labels,
+        datasets: [
+          {
+            label: "Trip Expense Status by User",
+            data: dataArr,
+            backgroundColor: ["#3e2f34"],
+            borderWidth: 1,
+          },
+        ],
       });
 
       setCost("");
@@ -137,11 +163,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       console.log(data);
     } catch (err) {
       console.error(err);
-    }
-
-    try {
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -257,7 +278,11 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
         <Link
           className="btn btn-dark final m-5"
           to="/finaltripsplit"
-          state={{ expenses: tripData.expensesPaid, users: tripData.users }}
+          state={{
+            expenses: tripExpenses,
+            users: tripUsers,
+            tripId: currentTripId,
+          }}
         >
           Final Trip $plit
         </Link>
