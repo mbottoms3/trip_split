@@ -15,7 +15,9 @@ const resolvers = {
     },
     // find Trip by id
     trip: async (parent, { tripId }) => {
-      return Trip.findOne({ _id: tripId }).populate("users");
+      return Trip.findOne({ _id: tripId })
+        .populate("users")
+        .populate("expensesPaid");
     },
     //find Trip by name
     findTripByName: async (parent, { name, password }) => {
@@ -34,6 +36,10 @@ const resolvers = {
       // const params = email ? { email } : {};
       return Trip.find();
     },
+
+    // findTripExpense: async (parent, { tripId }) => {
+    //   return Trip.findOne({ _id: tripId }).populate("users", "expensesPaid");
+    // },
   },
 
   Mutation: {
