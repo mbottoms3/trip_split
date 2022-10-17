@@ -2,10 +2,10 @@
 import { createTotalArray, split } from "../utils/helpers.mjs";
 function FinalSplit(props) {
   console.log(props);
-  // const totalPaid = createTotalArray(props.users, props.expenses);
+  const totalPaid = createTotalArray(props.users, props.expenses);
   // console.log(totalPaid);
   //total paid is working, split is return undefined for some reason?
-  const output = split(props);
+  const output = split(totalPaid);
   console.log(output);
 
   // console.log(data);

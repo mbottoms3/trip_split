@@ -31,23 +31,23 @@ export function split(array) {
   const output = [];
   //adds up all amounts paid and divides by the number of users on the trip
   const evenSplitAmount =
-    array.totalArray.reduce(function (total, object) {
+    array.reduce(function (total, object) {
       total += object.paid;
       console.log()
 
       return total;
-    }, 0) / array.totalArray.length;
+    }, 0) / array.length;
 
   //change original array.paid to difference between amount paid and amount each person SHOULD pay if it was even
-  array.totalArray.map((object) => {
+  array.map((object) => {
     return (object.paid = object.paid - evenSplitAmount);
   });
 
-  const negativePaid = array.totalArray.filter(function (currentValue) {
+  const negativePaid = array.filter(function (currentValue) {
     return currentValue.paid <= 0;
   });
 
-  const positivePaid = array.totalArray.filter(function (currentValue) {
+  const positivePaid = array.filter(function (currentValue) {
     return currentValue.paid > 0;
   });
 

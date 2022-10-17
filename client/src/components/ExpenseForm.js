@@ -29,7 +29,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   let labels = [];
   let dataArr = [];
   let totalArray;
-  
+
   totalArray = createTotalArray(data.trip.users, data.trip.expensesPaid);
 
   for (const data of totalArray) {
@@ -107,6 +107,9 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       results.data.trip.expensesPaid
     );
 
+    tripExpenses = results.data.trip.expensesPaid;
+    tripUsers = results.data.trip.users;
+
     console.log(dataArr);
     const inputName = users.find((user) => user.email === purchaser);
     const costNum = parseInt(cost);
@@ -174,8 +177,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       ? setDescription(value)
       : setPurchaser(value);
   };
-
-  console.log(data.trip.users, data.trip.expensesPaid);
 
   return (
     <div className="d-flex">
@@ -278,7 +279,10 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
         <Link
           className="btn btn-dark final m-5"
           to="/finaltripsplit"
-          state={{ totalArray: totalArray }}
+          state={{
+            expenses: tripExpenses,
+            users: tripUsers,
+          }}
         >
           Final Trip $plit
         </Link>
