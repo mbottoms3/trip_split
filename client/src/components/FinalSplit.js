@@ -1,8 +1,16 @@
 //This component will have a list of final transactions for users once the finalsplit button is clicked
 import { createTotalArray, split } from "../utils/helpers.mjs";
+import { QUERY_SINGLE_TRIP } from "../utils/queries";
+import { useQuery } from "@apollo/client";
+import { useLocation } from "react-router-dom";
+
 function FinalSplit(props) {
-  console.log(props);
-  const totalPaid = createTotalArray(props.users, props.expenses);
+  const { data } = useQuery(QUERY_SINGLE_TRIP, {
+    variables: { tripId: props.tripId },
+  });
+  console.log(data);
+
+  const totalPaid = createTotalArray(data.trip.users, data.trip.expensesPaid);
   // console.log(totalPaid);
   //total paid is working, split is return undefined for some reason?
   const output = split(totalPaid);

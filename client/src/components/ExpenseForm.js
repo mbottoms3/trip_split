@@ -10,11 +10,14 @@ import { useLocation } from "react-router-dom";
 function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   //query to get updated expenses
   const [singleTripExpense] = useLazyQuery(QUERY_SINGLE_TRIP);
-  console.log(users);
+
+  //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
+  const [addExpense, { error }] = useMutation(ADD_EXPENSE);
 
   //getting current tripId
   let location = useLocation();
   let currentTrip = location.state;
+  let currentTripId = currentTrip.tripId;
 
   const { data } = useQuery(QUERY_SINGLE_TRIP, {
     variables: { tripId: currentTrip.tripId },
@@ -32,9 +35,9 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
 
   totalArray = createTotalArray(data.trip.users, data.trip.expensesPaid);
 
-  for (const data of totalArray) {
-    labels.push(data.firstName);
-    dataArr.push(data.paid);
+  for (const userData of totalArray) {
+    labels.push(userData.firstName);
+    dataArr.push(userData.paid);
   }
 
   const initialLoadGraphData = {
@@ -57,10 +60,12 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     for (var i = input.length - 1; i >= 0; i--) {
       ret.push(input[i]);
     }
+    console.log(ret);
     return ret;
   }
 
   let newArray = reverseArr(data.trip.expensesPaid);
+  console.log(newArray);
 
   const [cost, setCost] = useState();
   const [description, setDescription] = useState("");
@@ -72,7 +77,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   useEffect(() => {
     for (let expense of newArray) {
       const user = users.find((e) => e.email === expense.email);
-      console.log(users);
+      console.log(user);
       expensesWithNames.push({
         name: `${user.firstName} ${user.lastName}`,
         email: expense.email,
@@ -83,67 +88,22 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     setExpenseArray(expensesWithNames);
   }, []);
 
-  //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
-  const [addExpense, { error }] = useMutation(ADD_EXPENSE);
-
   if (error) {
     console.log(JSON.stringify(error));
   }
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     // const results = await singleTrip({});
 
-    //returns {tripId: "ID...."}
-    let currentTrip = location.state;
-
-    //query db to find users and expenses
-    let results = await singleTripExpense({
-      variables: { tripId: currentTrip.tripId },
-    });
-    console.log(results);
-
-    totalArray = createTotalArray(
-      results.data.trip.users,
-      results.data.trip.expensesPaid
-    );
-
-    tripExpenses = results.data.trip.expensesPaid;
-    tripUsers = results.data.trip.users;
-
-    console.log(dataArr);
-    const inputName = users.find((user) => user.email === purchaser);
-    const costNum = parseInt(cost);
-    setExpenseArray([
-      {
-        __typename: "expensePaid",
-        name: inputName.firstName,
-        lastName: inputName.lastName,
-        email: purchaser,
-        itemDescription: description,
-        amount: costNum,
-      },
-      ...expenseArray,
-    ]);
-
-    console.log(expenseArray);
-
-    const object = labels.findIndex((item) => item === inputName.firstName);
-    console.log(object);
-    dataArr[object] += costNum;
-    setGraphData({
-      labels: labels,
-      datasets: [
-        {
-          label: "Trip Expense Status by User",
-          data: dataArr,
-          backgroundColor: ["#3e2f34"],
-          borderWidth: 1,
-        },
-      ],
-    });
-
-    e.preventDefault();
     try {
+      //returns {tripId: "ID...."}
+      let currentTrip = location.state;
+
+      //turning cost into number
+      const costNum = parseInt(cost);
+
+      //adding the expense
       const { data } = await addExpense({
         variables: {
           tripId: currentTrip.tripId,
@@ -152,6 +112,50 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
           email: purchaser,
         },
       });
+      //query db to find users and expenses
+      let results = await singleTripExpense({
+        variables: { tripId: currentTrip.tripId },
+      });
+      console.log(results);
+
+      totalArray = createTotalArray(
+        results.data.trip.users,
+        results.data.trip.expensesPaid
+      );
+
+      tripExpenses = results.data.trip.expensesPaid;
+      tripUsers = results.data.trip.users;
+
+      console.log(dataArr);
+      const inputName = users.find((user) => user.email === purchaser);
+      setExpenseArray([
+        {
+          __typename: "expensePaid",
+          name: inputName.firstName,
+          lastName: inputName.lastName,
+          email: purchaser,
+          itemDescription: description,
+          amount: costNum,
+        },
+        ...expenseArray,
+      ]);
+
+      console.log(expenseArray);
+
+      const object = labels.findIndex((item) => item === inputName.firstName);
+      console.log(object);
+      dataArr[object] += costNum;
+      setGraphData({
+        labels: labels,
+        datasets: [
+          {
+            label: "Trip Expense Status by User",
+            data: dataArr,
+            backgroundColor: ["#3e2f34"],
+            borderWidth: 1,
+          },
+        ],
+      });
 
       setCost("");
       setDescription("");
@@ -159,11 +163,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       console.log(data);
     } catch (err) {
       console.error(err);
-    }
-
-    try {
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -282,6 +281,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
           state={{
             expenses: tripExpenses,
             users: tripUsers,
+            tripId: currentTripId,
           }}
         >
           Final Trip $plit

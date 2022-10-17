@@ -33,8 +33,6 @@ export function split(array) {
   const evenSplitAmount =
     array.reduce(function (total, object) {
       total += object.paid;
-      console.log()
-
       return total;
     }, 0) / array.length;
 
