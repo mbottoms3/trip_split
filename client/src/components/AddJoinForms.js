@@ -146,7 +146,7 @@ function AddJoinForms() {
 
   return (
     <div className="d-flex">
-      <div className="w-50 m-3">
+      <div className="w-50 m-3 formAccent px-4 py-2">
         <h3>Add a New Trip</h3>
         <div className="mb-3">
           <label htmlFor="cost" className="form-label">
@@ -202,7 +202,7 @@ function AddJoinForms() {
           <p className="py-3">{feedback1}</p>
         </div>
       </div>
-      <div className="w-50 m-3">
+      <div className="w-50 m-3 formAccent px-4 py-2">
         <h3>Join an Existing Trip</h3>
         <div className="mb-3">
           <label htmlFor="cost" className="form-label">

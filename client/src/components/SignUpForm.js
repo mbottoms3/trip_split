@@ -57,7 +57,7 @@ function SignUpForm() {
   };
 
   return (
-    <div className="w-25">
+    <div className="w-25 formAccent mx-2 px-4 py-2">
       <h3>Sign Up</h3>
       <div className="mb-3">
         <label htmlFor="email" className="form-label">

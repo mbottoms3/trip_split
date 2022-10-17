@@ -1,6 +1,7 @@
 :root {
   --dark: #3e2f34;
   --green: #45cbb2;
+  --accent: rgba(200, 238, 233);
 }
 
 * {
@@ -89,6 +90,11 @@ html,
 }
 .App-link {
   color: #61dafb;
+}
+
+.formAccent {
+  background-color: var(--accent);
+  border-radius: 1rem;
 }
 
 .final {
