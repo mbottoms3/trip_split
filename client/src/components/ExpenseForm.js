@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { ADD_EXPENSE } from "../utils/mutations";
 import { createTotalArray } from "../utils/helpers.mjs";
 import { Bar } from "react-chartjs-2";
 import { Link } from "react-router-dom";
+import { QUERY_SINGLE_TRIP } from "../utils/queries";
+import { useLocation } from "react-router-dom";
 
 function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
+  //query to get updated expenses
+  const [singleTripExpense] = useLazyQuery(QUERY_SINGLE_TRIP);
+
+  //getting current tripId
+  let location = useLocation();
+  let currentTrip = location.state;
+
+  const { data } = useQuery(QUERY_SINGLE_TRIP, {
+    variables: { tripId: currentTrip.tripId },
+  });
+  console.log(data);
+
   // barChart stuff
   let labels = [];
   let dataArr = [];
-  const totalArr = createTotalArray(tripData.users, tripData.expensesPaid);
+  const totalArr = createTotalArray(data.trip.users, data.trip.expensesPaid);
 
   for (const data of totalArr) {
     labels.push(data.firstName);
@@ -30,6 +44,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
 
   //end barchart
   function reverseArr(input) {
+    console.log(input);
     var ret = new Array();
     for (var i = input.length - 1; i >= 0; i--) {
       ret.push(input[i]);
@@ -49,6 +64,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     let expensesWithNames = [];
     for (let expense of newArray) {
       const user = users.find((e) => e.email === expense.email);
+      console.log(users);
       expensesWithNames.push({
         name: `${user.firstName} ${user.lastName}`,
         email: expense.email,
@@ -75,12 +91,22 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   }
 
   const handleSubmit = async (e) => {
-    const totalArr = createTotalArray(tripData.users, tripData.expensesPaid);
+    // const results = await singleTrip({});
 
-    // for (const data of totalArr) {
-    //   dataArr.push(data.firstName);
-    //   dataArr.push(data.paid);
-    // }
+    //returns {tripId: "ID...."}
+    let currentTrip = location.state;
+
+    //query db to find users and expenses
+    let results = await singleTripExpense({
+      variables: { tripId: currentTrip.tripId },
+    });
+    console.log(results);
+
+    const totalArr = createTotalArray(
+      results.data.trip.users,
+      results.data.trip.expensesPaid
+    );
+
     console.log(dataArr);
     const inputName = users.find((user) => user.email === purchaser);
     const costNum = parseInt(cost);
@@ -96,13 +122,13 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       ...expenseArray,
     ]);
 
-    //pushing new expense to tripData.expensesPaid array
-    tripData.expensesPaid.push({
-      __typename: "expensePaid",
-      email: purchaser,
-      itemDescription: description,
-      amount: costNum,
-    });
+    // //pushing new expense to tripData.expensesPaid array
+    // tripData.expensesPaid.push({
+    //   __typename: "expensePaid",
+    //   email: purchaser,
+    //   itemDescription: description,
+    //   amount: costNum,
+    // });
 
     console.log(labels);
     const object = labels.findIndex((item) => item === inputName.firstName);
