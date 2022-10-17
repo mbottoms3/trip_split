@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   //query to get updated expenses
   const [singleTripExpense] = useLazyQuery(QUERY_SINGLE_TRIP);
+  console.log(users);
 
   //getting current tripId
   let location = useLocation();
@@ -20,12 +21,18 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   });
   console.log(data);
 
+  //used to pass arrays to FinalSplit
+  let tripExpenses = data.trip.expensesPaid;
+  let tripUsers = data.trip.users;
+
   // barChart stuff
   let labels = [];
   let dataArr = [];
-  const totalArr = createTotalArray(data.trip.users, data.trip.expensesPaid);
+  let totalArray;
+  
+  totalArray = createTotalArray(data.trip.users, data.trip.expensesPaid);
 
-  for (const data of totalArr) {
+  for (const data of totalArray) {
     labels.push(data.firstName);
     dataArr.push(data.paid);
   }
@@ -42,7 +49,8 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     ],
   };
 
-  //end barchart
+  // //end barchart
+
   function reverseArr(input) {
     console.log(input);
     var ret = new Array();
@@ -52,7 +60,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     return ret;
   }
 
-  let newArray = reverseArr(expenses);
+  let newArray = reverseArr(data.trip.expensesPaid);
 
   const [cost, setCost] = useState();
   const [description, setDescription] = useState("");
@@ -60,8 +68,8 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   const [expenseArray, setExpenseArray] = useState(newArray);
   const [graphData, setGraphData] = useState(initialLoadGraphData);
 
+  let expensesWithNames = [];
   useEffect(() => {
-    let expensesWithNames = [];
     for (let expense of newArray) {
       const user = users.find((e) => e.email === expense.email);
       console.log(users);
@@ -74,14 +82,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     }
     setExpenseArray(expensesWithNames);
   }, []);
-
-  console.log(newArray);
-
-  console.log(expenseArray);
-  // const { loading, data } = useQuery(QUERY_SINGLE_TRIP, {
-  //   variables: { tripId: tripId },
-  // });
-  // const trip = data?.trip || {};
 
   //need to make sure we have an add_expense mutation in utils/mutations- look in MERN activity 16
   const [addExpense, { error }] = useMutation(ADD_EXPENSE);
@@ -102,7 +102,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     });
     console.log(results);
 
-    const totalArr = createTotalArray(
+    totalArray = createTotalArray(
       results.data.trip.users,
       results.data.trip.expensesPaid
     );
@@ -122,15 +122,8 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       ...expenseArray,
     ]);
 
-    // //pushing new expense to tripData.expensesPaid array
-    // tripData.expensesPaid.push({
-    //   __typename: "expensePaid",
-    //   email: purchaser,
-    //   itemDescription: description,
-    //   amount: costNum,
-    // });
+    console.log(expenseArray);
 
-    console.log(labels);
     const object = labels.findIndex((item) => item === inputName.firstName);
     console.log(object);
     dataArr[object] += costNum;
@@ -150,7 +143,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     try {
       const { data } = await addExpense({
         variables: {
-          tripId: tripId,
+          tripId: currentTrip.tripId,
           itemDescription: description,
           amount: costNum,
           email: purchaser,
@@ -181,6 +174,8 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       ? setDescription(value)
       : setPurchaser(value);
   };
+
+  console.log(data.trip.users, data.trip.expensesPaid);
 
   return (
     <div className="d-flex">
@@ -283,7 +278,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
         <Link
           className="btn btn-dark final m-5"
           to="/finaltripsplit"
-          state={{ expenses: tripData.expensesPaid, users: tripData.users }}
+          state={{ totalArray: totalArray }}
         >
           Final Trip $plit
         </Link>

@@ -1,10 +1,11 @@
 //This component will have a list of final transactions for users once the finalsplit button is clicked
 import { createTotalArray, split } from "../utils/helpers.mjs";
 function FinalSplit(props) {
-  const totalPaid = createTotalArray(props.users, props.expenses);
-  console.log(props.users);
+  console.log(props);
+  // const totalPaid = createTotalArray(props.users, props.expenses);
+  // console.log(totalPaid);
   //total paid is working, split is return undefined for some reason?
-  const output = split(totalPaid);
+  const output = split(props);
   console.log(output);
 
   // console.log(data);
