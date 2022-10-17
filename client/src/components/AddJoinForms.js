@@ -4,6 +4,7 @@ import { ADD_TRIP, UPDATE_TRIP, UPDATE_USER } from "../utils/mutations";
 // import { QUERY_USER } from "../utils/queries";
 import { QUERY_TRIP } from "../utils/queries";
 import Auth from "../utils/auth";
+import { QUERY_ADD_TRIP } from "../utils/queries";
 
 function AddJoinForms() {
   const [newName, setNewName] = useState("");
@@ -11,6 +12,8 @@ function AddJoinForms() {
   const [existingName, setExistingName] = useState("");
   const [existingPassword, setExistingPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [joinFeedback, setJoinFeedback] = useState("");
+  const [addFeedback, setAddFeedback] = useState("");
 
   //adding trip - passwords
   const [feedback1, setFeedback1] = useState("");
@@ -35,12 +38,39 @@ function AddJoinForms() {
       ? console.log("Passwords match")
       : setFeedback1("Passwords do not match");
     try {
-      const { data } = addTrip({
+      const { data } = await addTrip({
         variables: { name: newName, password: newPassword },
       });
+
+      //finding new trip
+      let newTrip = await getTripId({
+        variables: { name: newName, password: newPassword },
+      });
+
+      //returns decoded token --> {data: {email: ..., _id: ...}}
+      const decodedToken = Auth.getProfile();
+
+      const user = await addUserToTrip({
+        variables: {
+          userId: decodedToken.data._id,
+          tripId: newTrip.data.findTripByName._id,
+        },
+      });
+      const trip = await addTripToUser({
+        variables: {
+          tripId: newTrip.data.findTripByName._id,
+          userId: decodedToken.data._id,
+        },
+      });
+
       setNewName("");
       setNewPassword("");
       setConfirmPassword("");
+
+      if (trip && user) {
+        window.location.assign("/mytrips");
+      }
+
       console.log(data);
     } catch (error) {
       console.error(error);
@@ -57,7 +87,10 @@ function AddJoinForms() {
     });
 
     if (!results.data) {
-      alert("Trip does not exist or incorrect password. Please try again.");
+      // alert("Trip does not exist or incorrect password. Please try again.");
+      setJoinFeedback(
+        "Trip does not exist or incorrect password, please try again"
+      );
       return;
     }
 
@@ -78,9 +111,10 @@ function AddJoinForms() {
         },
       });
 
-      //alerting user if they joined the group
       if (addUser && addTrip) {
-        alert(`You have joined ${existingName}`);
+        window.location.assign("/mytrips");
+        // alert(`You have joined ${existingName}`);
+        setJoinFeedback("You have joined your trip!");
       }
 
       setExistingName("");
@@ -112,7 +146,7 @@ function AddJoinForms() {
 
   return (
     <div className="d-flex">
-      <div className="w-50 m-3">
+      <div className="w-50 m-3 formAccent px-4 py-2">
         <h3>Add a New Trip</h3>
         <div className="mb-3">
           <label htmlFor="cost" className="form-label">
@@ -164,8 +198,11 @@ function AddJoinForms() {
             Submit
           </button>
         </div>
+        <div className="col-auto d-flex justify-content-center">
+          <p className="py-3">{feedback1}</p>
+        </div>
       </div>
-      <div className="w-50 m-3">
+      <div className="w-50 m-3 formAccent px-4 py-2">
         <h3>Join an Existing Trip</h3>
         <div className="mb-3">
           <label htmlFor="cost" className="form-label">
@@ -203,6 +240,9 @@ function AddJoinForms() {
           >
             Submit
           </button>
+        </div>
+        <div className="col-auto d-flex justify-content-center">
+          <p className="py-3">{joinFeedback}</p>
         </div>
       </div>
     </div>
