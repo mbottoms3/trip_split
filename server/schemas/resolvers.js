@@ -57,6 +57,11 @@ const resolvers = {
 
     // ADD user to a trip
     addUserToTrip: async (parent, { userId, tripId }) => {
+      //this finds the first user in the users array??
+      const user = await User.findOne({ userId });
+      console.log(user._id);
+      console.log(user.firstName);
+      //write logic to find a user by id and get their info
       return Trip.findOneAndUpdate(
         { _id: tripId },
         {
