@@ -22,7 +22,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   const { data } = useQuery(QUERY_SINGLE_TRIP, {
     variables: { tripId: currentTrip.tripId },
   });
-  console.log(data);
 
   //used to pass arrays to FinalSplit
   let tripExpenses = data.trip.expensesPaid;
@@ -72,7 +71,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   const [purchaser, setPurchaser] = useState("");
   const [expenseArray, setExpenseArray] = useState(newArray);
   const [graphData, setGraphData] = useState(initialLoadGraphData);
-
+  console.log(expenseArray);
   let expensesWithNames = [];
   useEffect(() => {
     for (let expense of newArray) {
@@ -177,6 +176,10 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       : setPurchaser(value);
   };
 
+  const handleRemove = (e) => {
+    console.log(e.currentTarget.parentElement.parentElement.children[0]);
+  };
+
   return (
     <div className="d-flex">
       <div className="w-100 one-trip d-flex flex-column">
@@ -240,14 +243,18 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
               expenseArray.map((expense) => (
                 <div className="d-flex align-items-center justify-content-between">
                   <li
-                    key={Math.random()}
+                    id={expense}
+                    key={expense.itemDescription}
                     className="list-unstyled m-2 p-2 flex-fill"
                   >
                     {expense.name} {expense.lastName} purchased{" "}
                     {expense.itemDescription} for ${expense.amount}{" "}
                   </li>
                   <div className="icon">
-                    <i className="fa-solid fa-trash-can"></i>
+                    <i
+                      className="fa-solid fa-trash-can"
+                      onClick={handleRemove}
+                    ></i>
                   </div>
                 </div>
               ))}
