@@ -137,3 +137,13 @@ export function split(array) {
   }
   return output;
 }
+
+export function reverseArr(input) {
+  console.log(input);
+  var ret = new Array();
+  for (var i = input.length - 1; i >= 0; i--) {
+    ret.push(input[i]);
+  }
+  console.log(ret);
+  return ret;
+}

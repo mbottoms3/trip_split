@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { ADD_EXPENSE } from "../utils/mutations";
-import { createTotalArray } from "../utils/helpers.mjs";
+import { createTotalArray, reverseArr } from "../utils/helpers.mjs";
 import { Bar } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { QUERY_SINGLE_TRIP } from "../utils/queries";
@@ -27,7 +27,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   let tripExpenses = data.trip.expensesPaid;
   let tripUsers = data.trip.users;
 
-  // barChart stuff
+  // barChart stuff ------------------------------------------------------------------------------
   let labels = [];
   let dataArr = [];
   let totalArray;
@@ -51,17 +51,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
     ],
   };
 
-  // //end barchart
-
-  function reverseArr(input) {
-    console.log(input);
-    var ret = new Array();
-    for (var i = input.length - 1; i >= 0; i--) {
-      ret.push(input[i]);
-    }
-    console.log(ret);
-    return ret;
-  }
+  // //end barchart ---------------------------------------------------------------------------------------
 
   let newArray = reverseArr(data.trip.expensesPaid);
   console.log(newArray);
@@ -73,10 +63,13 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
   const [graphData, setGraphData] = useState(initialLoadGraphData);
   console.log(expenseArray);
   let expensesWithNames = [];
+
+  //solution - have query send first and last names with each expense (basically attach entire user object to the expense)
   useEffect(() => {
+    //moves through newArray and finds a matching user inside users array by email
     for (let expense of newArray) {
       const user = users.find((e) => e.email === expense.email);
-      console.log(user);
+      //once found, empty array gets the following object pushed to it
       expensesWithNames.push({
         name: `${user.firstName} ${user.lastName}`,
         email: expense.email,
@@ -84,6 +77,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
         itemDescription: expense.itemDescription,
       });
     }
+    //expense array is set to this new array
     setExpenseArray(expensesWithNames);
   }, []);
 
@@ -115,7 +109,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       let results = await singleTripExpense({
         variables: { tripId: currentTrip.tripId },
       });
-      console.log(results);
 
       totalArray = createTotalArray(
         results.data.trip.users,
@@ -125,7 +118,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       tripExpenses = results.data.trip.expensesPaid;
       tripUsers = results.data.trip.users;
 
-      console.log(dataArr);
+      //
       const inputName = users.find((user) => user.email === purchaser);
       setExpenseArray([
         {
@@ -139,10 +132,7 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
         ...expenseArray,
       ]);
 
-      console.log(expenseArray);
-
       const object = labels.findIndex((item) => item === inputName.firstName);
-      console.log(object);
       dataArr[object] += costNum;
       setGraphData({
         labels: labels,
@@ -159,7 +149,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
       setCost("");
       setDescription("");
       setPurchaser("");
-      console.log(data);
     } catch (err) {
       console.error(err);
     }
@@ -167,7 +156,6 @@ function ExpenseForm({ tripId, expenses, title, users, chartData, tripData }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
     return name === "cost"
       ? setCost(value)
