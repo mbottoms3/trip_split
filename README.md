@@ -48,6 +48,8 @@ This project was created by:
 
 #### [Jordan Laczkowski](https://github.com/JordanLaczkowski)
 
+#### [Micah Bottoms](https://github.com/mbottoms3)
+
 ## Testing
 
 This application has no testing.
